@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<title>CyberChef Source: core/operations/Hash.js</title>
+
+	<!--[if lt IE 9]>
+	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	<link type="text/css" rel="stylesheet" href="styles/sunlight.default.css">
+
+	<link type="text/css" rel="stylesheet" href="styles/site.cerulean.css">
+
+</head>
+
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top navbar-inverse">
+<div class="container">
+	<div class="navbar-header">
+		<a class="navbar-brand" href="index.html"><img class="branding-logo" src="cyberchef-32x32.png"
+		alt="logo"/>CyberChef</a>
+		<button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#topNavigation">
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+        </button>
+	</div>
+	<div class="navbar-collapse collapse" id="topNavigation">
+		<ul class="nav navbar-nav">
+			
+			<li class="dropdown">
+				<a href="namespaces.list.html" class="dropdown-toggle" data-toggle="dropdown">Namespaces<b class="caret"></b></a>
+				<ul class="dropdown-menu inline">
+					<li><a href="FlowControl.html">FlowControl</a></li><li><a href="Arithmetic.html">Arithmetic</a></li><li><a href="Base.html">Base</a></li><li><a href="Base58.html">Base58</a></li><li><a href="Base64.html">Base64</a></li><li><a href="BCD.html">BCD</a></li><li><a href="BitwiseOp.html">BitwiseOp</a></li><li><a href="ByteRepr.html">ByteRepr</a></li><li><a href="CharEnc.html">CharEnc</a></li><li><a href="Checksum.html">Checksum</a></li><li><a href="Cipher.html">Cipher</a></li><li><a href="Code.html">Code</a></li><li><a href="Compress.html">Compress</a></li><li><a href="Convert.html">Convert</a></li><li><a href="DateTime.html">DateTime</a></li><li><a href="Diff.html">Diff</a></li><li><a href="Endian.html">Endian</a></li><li><a href="Entropy.html">Entropy</a></li><li><a href="Extract.html">Extract</a></li><li><a href="Filetime.html">Filetime</a></li><li><a href="FileType.html">FileType</a></li><li><a href="Hash.html">Hash</a></li><li><a href="Hexdump.html">Hexdump</a></li><li><a href="HTML.html">HTML</a></li><li><a href="HTTP.html">HTTP</a></li><li><a href="Image.html">Image</a></li><li><a href="IP.html">IP</a></li><li><a href="JS.html">JS</a></li><li><a href="MAC.html">MAC</a></li><li><a href="MorseCode.html">MorseCode</a></li><li><a href="MS.html">MS</a></li><li><a href="NetBIOS.html">NetBIOS</a></li><li><a href="Numberwang.html">Numberwang</a></li><li><a href="OS.html">OS</a></li><li><a href="OTP.html">OTP</a></li><li><a href="PHP.html">PHP</a></li><li><a href="PublicKey.html">PublicKey</a></li><li><a href="Punycode.html">Punycode</a></li><li><a href="QuotedPrintable.html">QuotedPrintable</a></li><li><a href="Regex.html">Regex</a></li><li><a href="Rotate.html">Rotate</a></li><li><a href="SeqUtils.html">SeqUtils</a></li><li><a href="Shellcode.html">Shellcode</a></li><li><a href="StrUtils.html">StrUtils</a></li><li><a href="Tidy.html">Tidy</a></li><li><a href="Unicode.html">Unicode</a></li><li><a href="URL_.html">URL_</a></li><li><a href="UUID.html">UUID</a></li><li><a href="XKCD.html">XKCD</a></li><li><a href="Utils.html">Utils</a></li>
+				</ul>
+			</li>
+			
+			<li class="dropdown">
+				<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b class="caret"></b></a>
+				<ul class="dropdown-menu inline">
+					<li><a href="Chef.html">Chef</a></li><li><a href="Dish.html">Dish</a></li><li><a href="Ingredient.html">Ingredient</a></li><li><a href="Operation.html">Operation</a></li><li><a href="Recipe.html">Recipe</a></li><li><a href="App.html">App</a></li><li><a href="BindingsWaiter.html">BindingsWaiter</a></li><li><a href="ControlsWaiter.html">ControlsWaiter</a></li><li><a href="HighlighterWaiter.html">HighlighterWaiter</a></li><li><a href="HTMLCategory.html">HTMLCategory</a></li><li><a href="HTMLIngredient.html">HTMLIngredient</a></li><li><a href="HTMLOperation.html">HTMLOperation</a></li><li><a href="InputWaiter.html">InputWaiter</a></li><li><a href="Manager.html">Manager</a></li><li><a href="OperationsWaiter.html">OperationsWaiter</a></li><li><a href="OptionsWaiter.html">OptionsWaiter</a></li><li><a href="OutputWaiter.html">OutputWaiter</a></li><li><a href="RecipeWaiter.html">RecipeWaiter</a></li><li><a href="SeasonalWaiter.html">SeasonalWaiter</a></li><li><a href="WindowWaiter.html">WindowWaiter</a></li><li><a href="WorkerWaiter.html">WorkerWaiter</a></li>
+				</ul>
+			</li>
+			
+			<li class="dropdown">
+				<a href="events.list.html" class="dropdown-toggle" data-toggle="dropdown">Events<b class="caret"></b></a>
+				<ul class="dropdown-menu inline">
+					<li><a href="Manager.html#event:appstart">Manager#event:appstart</a></li><li><a href="Manager.html#event:apploaded">Manager#event:apploaded</a></li><li><a href="Manager.html#event:operationadd">Manager#event:operationadd</a></li><li><a href="Manager.html#event:operationremove">Manager#event:operationremove</a></li><li><a href="Manager.html#event:oplistcreate">Manager#event:oplistcreate</a></li><li><a href="Manager.html#event:statechange">Manager#event:statechange</a></li>
+				</ul>
+			</li>
+			
+			<li class="dropdown">
+				<a href="global.html" class="dropdown-toggle" data-toggle="dropdown">Global<b class="caret"></b></a>
+				<ul class="dropdown-menu inline">
+					<li><a href="global.html#bake">bake</a></li><li><a href="global.html#_asyncToGenerator">_asyncToGenerator</a></li><li><a href="global.html#loadRequiredModules">loadRequiredModules</a></li><li><a href="global.html#calculateHighlights">calculateHighlights</a></li><li><a href="global.html#Categories">Categories</a></li><li><a href="global.html#OpModules">OpModules</a></li><li><a href="global.html#OperationConfig">OperationConfig</a></li><li><a href="global.html#valExport">valExport</a></li><li><a href="global.html#main">main</a></li><li><a href="global.html#sitemap">sitemap</a></li>
+				</ul>
+			</li>
+			
+		</ul>
+        
+            <div class="col-sm-3 col-md-3">
+                <form class="navbar-form" role="search">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search" name="q" id="search-input">
+                        <div class="input-group-btn">
+                            <button class="btn btn-default" id="search-submit"><i class="glyphicon glyphicon-search"></i></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        
+	</div>
+
+</div>
+</div>
+
+
+<div class="container" id="toc-content">
+<div class="row">
+
+	
+	<div class="col-md-12">
+	
+		<div id="main">
+			
+
+		<h1 class="page-title">Source: core/operations/Hash.js</h1>
+    
+<section>
+    <article>
+        <pre
+            class="sunlight-highlight-javascript linenums">import Utils from "../Utils.js";
+import CryptoApi from "babel-loader!crypto-api";
+import MD6 from "node-md6";
+import * as SHA3 from "js-sha3";
+import Checksum from "./Checksum.js";
+import ctph from "ctph.js";
+import ssdeep from "ssdeep.js";
+
+
+/**
+ * Hashing operations.
+ *
+ * @author n1474335 [n1474335@gmail.com]
+ * @copyright Crown Copyright 2016
+ * @license Apache-2.0
+ *
+ * @namespace
+ */
+const Hash = {
+
+    /**
+     * Generic hash function.
+     *
+     * @param {string} name
+     * @param {ArrayBuffer} input
+     * @param {Object} [options={}]
+     * @returns {string}
+     */
+    runHash: function(name, input, options={}) {
+        const msg = Utils.arrayBufferToStr(input, false),
+            hasher = CryptoApi.getHasher(name, options);
+        hasher.update(msg);
+        return CryptoApi.encoder.toHex(hasher.finalize());
+    },
+
+
+    /**
+     * MD2 operation.
+     *
+     * @param {ArrayBuffer} input
+     * @param {Object[]} args
+     * @returns {string}
+     */
+    runMD2: function (input, args) {
+        return Hash.runHash("md2", input);
+    },
+
+
+    /**
+     * MD4 operation.
+     *
+     * @param {ArrayBuffer} input
+     * @param {Object[]} args
+     * @returns {string}
+     */
+    runMD4: function (input, args) {
+        return Hash.runHash("md4", input);
+    },
+
+
+    /**
+     * MD5 operation.
+     *
+     * @param {ArrayBuffer} input
+     * @param {Object[]} args
+     * @returns {string}
+     */
+    runMD5: function (input, args) {
+        return Hash.runHash("md5", input);
+    },
+
+
+    /**
+     * @constant
+     * @default
+     */
+    MD6_SIZE: 256,
+    /**
+     * @constant
+     * @default
+     */
+    MD6_LEVELS: 64,
+
+    /**
+     * MD6 operation.
+     *
+     * @param {string} input
+     * @param {Object[]} args
+     * @returns {string}
+     */
+    runMD6: function (input, args) {
+        const size = args[0],
+            levels = args[1],
+            key = args[2];
+
+        if (size &lt; 0 || size > 512)
+            return "Size must be between 0 and 512";
+        if (levels &lt; 0)
+            return "Levels must be greater than 0";
+
+        return MD6.getHashOfText(input, size, key, levels);
+    },
+
+
+    /**
+     * SHA0 operation.
+     *
+     * @param {ArrayBuffer} input
+     * @param {Object[]} args
+     * @returns {string}
+     */
+    runSHA0: function (input, args) {
+        return Hash.runHash("sha0", input);
+    },
+
+
+    /**
+     * SHA1 operation.
+     *
+     * @param {ArrayBuffer} input
+     * @param {Object[]} args
+     * @returns {string}
+     */
+    runSHA1: function (input, args) {
+        return Hash.runHash("sha1", input);
+    },
+
+
+    /**
+     * @constant
+     * @default
+     */
+    SHA2_SIZE: ["512", "256", "384", "224", "512/256", "512/224"],
+
+    /**
+     * SHA2 operation.
+     *
+     * @param {ArrayBuffer} input
+     * @param {Object[]} args
+     * @returns {string}
+     */
+    runSHA2: function (input, args) {
+        const size = args[0];
+        return Hash.runHash("sha" + size, input);
+    },
+
+
+    /**
+     * @constant
+     * @default
+     */
+    SHA3_SIZE: ["512", "384", "256", "224"],
+
+    /**
+     * SHA3 operation.
+     *
+     * @param {ArrayBuffer} input
+     * @param {Object[]} args
+     * @returns {string}
+     */
+    runSHA3: function (input, args) {
+        const size = parseInt(args[0], 10);
+        let algo;
+
+        switch (size) {
+            case 224:
+                algo = SHA3.sha3_224;
+                break;
+            case 384:
+                algo = SHA3.sha3_384;
+                break;
+            case 256:
+                algo = SHA3.sha3_256;
+                break;
+            case 512:
+                algo = SHA3.sha3_512;
+                break;
+            default:
+                return "Invalid size";
+        }
+
+        return algo(input);
+    },
+
+
+    /**
+     * @constant
+     * @default
+     */
+    KECCAK_SIZE: ["512", "384", "256", "224"],
+
+    /**
+     * Keccak operation.
+     *
+     * @param {ArrayBuffer} input
+     * @param {Object[]} args
+     * @returns {string}
+     */
+    runKeccak: function (input, args) {
+        const size = parseInt(args[0], 10);
+        let algo;
+
+        switch (size) {
+            case 224:
+                algo = SHA3.keccak224;
+                break;
+            case 384:
+                algo = SHA3.keccak384;
+                break;
+            case 256:
+                algo = SHA3.keccak256;
+                break;
+            case 512:
+                algo = SHA3.keccak512;
+                break;
+            default:
+                return "Invalid size";
+        }
+
+        return algo(input);
+    },
+
+
+    /**
+     * @constant
+     * @default
+     */
+    SHAKE_CAPACITY: ["256", "128"],
+    /**
+     * @constant
+     * @default
+     */
+    SHAKE_SIZE: 512,
+
+    /**
+     * Shake operation.
+     *
+     * @param {ArrayBuffer} input
+     * @param {Object[]} args
+     * @returns {string}
+     */
+    runShake: function (input, args) {
+        const capacity = parseInt(args[0], 10),
+            size = args[1];
+        let algo;
+
+        if (size &lt; 0)
+            return "Size must be greater than 0";
+
+        switch (capacity) {
+            case 128:
+                algo = SHA3.shake128;
+                break;
+            case 256:
+                algo = SHA3.shake256;
+                break;
+            default:
+                return "Invalid size";
+        }
+
+        return algo(input, size);
+    },
+
+
+    /**
+     * @constant
+     * @default
+     */
+    RIPEMD_SIZE: ["320", "256", "160", "128"],
+
+    /**
+     * RIPEMD operation.
+     *
+     * @param {ArrayBuffer} input
+     * @param {Object[]} args
+     * @returns {string}
+     */
+    runRIPEMD: function (input, args) {
+        const size = args[0];
+        return Hash.runHash("ripemd" + size, input);
+    },
+
+
+    /**
+     * HAS-160 operation.
+     *
+     * @param {ArrayBuffer} input
+     * @param {Object[]} args
+     * @returns {string}
+     */
+    runHAS: function (input, args) {
+        return Hash.runHash("has160", input);
+    },
+
+
+    /**
+     * @constant
+     * @default
+     */
+    WHIRLPOOL_VARIANT: ["Whirlpool", "Whirlpool-T", "Whirlpool-0"],
+
+    /**
+     * Whirlpool operation.
+     *
+     * @param {ArrayBuffer} input
+     * @param {Object[]} args
+     * @returns {string}
+     */
+    runWhirlpool: function (input, args) {
+        const variant = args[0].toLowerCase();
+        return Hash.runHash(variant, input);
+    },
+
+
+    /**
+     * @constant
+     * @default
+     */
+    SNEFRU_ROUNDS: ["8", "4", "2"],
+    /**
+     * @constant
+     * @default
+     */
+    SNEFRU_SIZE: ["256", "128"],
+
+    /**
+     * Snefru operation.
+     *
+     * @param {ArrayBuffer} input
+     * @param {Object[]} args
+     * @returns {string}
+     */
+    runSnefru: function (input, args) {
+        return Hash.runHash("snefru", input, {
+            rounds: args[0],
+            length: args[1]
+        });
+    },
+
+
+    /**
+     * CTPH operation.
+     *
+     * @param {string} input
+     * @param {Object[]} args
+     * @returns {string}
+     */
+    runCTPH: function (input, args) {
+        return ctph.digest(input);
+    },
+
+
+    /**
+     * SSDEEP operation.
+     *
+     * @param {string} input
+     * @param {Object[]} args
+     * @returns {string}
+     */
+    runSSDEEP: function (input, args) {
+        return ssdeep.digest(input);
+    },
+
+
+    /**
+     * @constant
+     * @default
+     */
+    DELIM_OPTIONS: ["Line feed", "CRLF", "Space", "Comma"],
+
+    /**
+     * Compare CTPH hashes operation.
+     *
+     * @param {string} input
+     * @param {Object[]} args
+     * @returns {Number}
+     */
+    runCompareCTPH: function (input, args) {
+        const samples = input.split(Utils.charRep[args[0]]);
+        if (samples.length !== 2) throw "Incorrect number of samples.";
+        return ctph.similarity(samples[0], samples[1]);
+    },
+
+
+    /**
+     * Compare SSDEEP hashes operation.
+     *
+     * @param {string} input
+     * @param {Object[]} args
+     * @returns {Number}
+     */
+    runCompareSSDEEP: function (input, args) {
+        const samples = input.split(Utils.charRep[args[0]]);
+        if (samples.length !== 2) throw "Incorrect number of samples.";
+        return ssdeep.similarity(samples[0], samples[1]);
+    },
+
+
+    /**
+     * @constant
+     * @default
+     */
+    HMAC_FUNCTIONS: [
+        "MD2",
+        "MD4",
+        "MD5",
+        "SHA0",
+        "SHA1",
+        "SHA224",
+        "SHA256",
+        "SHA384",
+        "SHA512",
+        "SHA512/224",
+        "SHA512/256",
+        "RIPEMD128",
+        "RIPEMD160",
+        "RIPEMD256",
+        "RIPEMD320",
+        "HAS160",
+        "Whirlpool",
+        "Whirlpool-0",
+        "Whirlpool-T",
+        "Snefru"
+    ],
+
+    /**
+     * HMAC operation.
+     *
+     * @param {ArrayBuffer} input
+     * @param {Object[]} args
+     * @returns {string}
+     */
+    runHMAC: function (input, args) {
+        const key = args[0],
+            hashFunc = args[1].toLowerCase(),
+            msg = Utils.arrayBufferToStr(input, false),
+            hasher = CryptoApi.getHasher(hashFunc);
+
+        // Horrible shim to fix constructor bug. Reported in nf404/crypto-api#8
+        hasher.reset = () => {
+            hasher.state = {};
+            const tmp = new hasher.constructor();
+            hasher.state = tmp.state;
+        };
+
+        const mac = CryptoApi.getHmac(CryptoApi.encoder.fromUtf(key), hasher);
+        mac.update(msg);
+        return CryptoApi.encoder.toHex(mac.finalize());
+    },
+
+
+    /**
+     * Generate all hashes operation.
+     *
+     * @param {ArrayBuffer} input
+     * @param {Object[]} args
+     * @returns {string}
+     */
+    runAll: function (input, args) {
+        const arrayBuffer = input,
+            str = Utils.arrayBufferToStr(arrayBuffer, false),
+            byteArray = new Uint8Array(arrayBuffer),
+            output = "MD2:         " + Hash.runMD2(arrayBuffer, []) +
+                "\nMD4:         " + Hash.runMD4(arrayBuffer, []) +
+                "\nMD5:         " + Hash.runMD5(arrayBuffer, []) +
+                "\nMD6:         " + Hash.runMD6(str, []) +
+                "\nSHA0:        " + Hash.runSHA0(arrayBuffer, []) +
+                "\nSHA1:        " + Hash.runSHA1(arrayBuffer, []) +
+                "\nSHA2 224:    " + Hash.runSHA2(arrayBuffer, ["224"]) +
+                "\nSHA2 256:    " + Hash.runSHA2(arrayBuffer, ["256"]) +
+                "\nSHA2 384:    " + Hash.runSHA2(arrayBuffer, ["384"]) +
+                "\nSHA2 512:    " + Hash.runSHA2(arrayBuffer, ["512"]) +
+                "\nSHA3 224:    " + Hash.runSHA3(arrayBuffer, ["224"]) +
+                "\nSHA3 256:    " + Hash.runSHA3(arrayBuffer, ["256"]) +
+                "\nSHA3 384:    " + Hash.runSHA3(arrayBuffer, ["384"]) +
+                "\nSHA3 512:    " + Hash.runSHA3(arrayBuffer, ["512"]) +
+                "\nKeccak 224:  " + Hash.runKeccak(arrayBuffer, ["224"]) +
+                "\nKeccak 256:  " + Hash.runKeccak(arrayBuffer, ["256"]) +
+                "\nKeccak 384:  " + Hash.runKeccak(arrayBuffer, ["384"]) +
+                "\nKeccak 512:  " + Hash.runKeccak(arrayBuffer, ["512"]) +
+                "\nShake 128:   " + Hash.runShake(arrayBuffer, ["128", 256]) +
+                "\nShake 256:   " + Hash.runShake(arrayBuffer, ["256", 512]) +
+                "\nRIPEMD-128:  " + Hash.runRIPEMD(arrayBuffer, ["128"]) +
+                "\nRIPEMD-160:  " + Hash.runRIPEMD(arrayBuffer, ["160"]) +
+                "\nRIPEMD-256:  " + Hash.runRIPEMD(arrayBuffer, ["256"]) +
+                "\nRIPEMD-320:  " + Hash.runRIPEMD(arrayBuffer, ["320"]) +
+                "\nHAS-160:     " + Hash.runHAS(arrayBuffer, []) +
+                "\nWhirlpool-0: " + Hash.runWhirlpool(arrayBuffer, ["Whirlpool-0"]) +
+                "\nWhirlpool-T: " + Hash.runWhirlpool(arrayBuffer, ["Whirlpool-T"]) +
+                "\nWhirlpool:   " + Hash.runWhirlpool(arrayBuffer, ["Whirlpool"]) +
+                "\nSSDEEP:      " + Hash.runSSDEEP(str) +
+                "\nCTPH:        " + Hash.runCTPH(str) +
+                "\n\nChecksums:" +
+                "\nFletcher-8:  " + Checksum.runFletcher8(byteArray, []) +
+                "\nFletcher-16: " + Checksum.runFletcher16(byteArray, []) +
+                "\nFletcher-32: " + Checksum.runFletcher32(byteArray, []) +
+                "\nFletcher-64: " + Checksum.runFletcher64(byteArray, []) +
+                "\nAdler-32:    " + Checksum.runAdler32(byteArray, []) +
+                "\nCRC-16:      " + Checksum.runCRC16(str, []) +
+                "\nCRC-32:      " + Checksum.runCRC32(str, []);
+
+        return output;
+    },
+
+
+    /**
+     * Analyse hash operation.
+     *
+     * @param {string} input
+     * @param {Object[]} args
+     * @returns {string}
+     */
+    runAnalyse: function(input, args) {
+        input = input.replace(/\s/g, "");
+
+        let output = "",
+            byteLength = input.length / 2,
+            bitLength = byteLength * 8,
+            possibleHashFunctions = [];
+
+        if (!/^[a-f0-9]+$/i.test(input)) {
+            return "Invalid hash";
+        }
+
+        output += "Hash length: " + input.length + "\n" +
+            "Byte length: " + byteLength + "\n" +
+            "Bit length:  " + bitLength + "\n\n" +
+            "Based on the length, this hash could have been generated by one of the following hashing functions:\n";
+
+        switch (bitLength) {
+            case 4:
+                possibleHashFunctions = [
+                    "Fletcher-4",
+                    "Luhn algorithm",
+                    "Verhoeff algorithm",
+                ];
+                break;
+            case 8:
+                possibleHashFunctions = [
+                    "Fletcher-8",
+                ];
+                break;
+            case 16:
+                possibleHashFunctions = [
+                    "BSD checksum",
+                    "CRC-16",
+                    "SYSV checksum",
+                    "Fletcher-16"
+                ];
+                break;
+            case 32:
+                possibleHashFunctions = [
+                    "CRC-32",
+                    "Fletcher-32",
+                    "Adler-32",
+                ];
+                break;
+            case 64:
+                possibleHashFunctions = [
+                    "CRC-64",
+                    "RIPEMD-64",
+                    "SipHash",
+                ];
+                break;
+            case 128:
+                possibleHashFunctions = [
+                    "MD5",
+                    "MD4",
+                    "MD2",
+                    "HAVAL-128",
+                    "RIPEMD-128",
+                    "Snefru",
+                    "Tiger-128",
+                ];
+                break;
+            case 160:
+                possibleHashFunctions = [
+                    "SHA-1",
+                    "SHA-0",
+                    "FSB-160",
+                    "HAS-160",
+                    "HAVAL-160",
+                    "RIPEMD-160",
+                    "Tiger-160",
+                ];
+                break;
+            case 192:
+                possibleHashFunctions = [
+                    "Tiger",
+                    "HAVAL-192",
+                ];
+                break;
+            case 224:
+                possibleHashFunctions = [
+                    "SHA-224",
+                    "SHA3-224",
+                    "ECOH-224",
+                    "FSB-224",
+                    "HAVAL-224",
+                ];
+                break;
+            case 256:
+                possibleHashFunctions = [
+                    "SHA-256",
+                    "SHA3-256",
+                    "BLAKE-256",
+                    "ECOH-256",
+                    "FSB-256",
+                    "GOST",
+                    "Grøstl-256",
+                    "HAVAL-256",
+                    "PANAMA",
+                    "RIPEMD-256",
+                    "Snefru",
+                ];
+                break;
+            case 320:
+                possibleHashFunctions = [
+                    "RIPEMD-320",
+                ];
+                break;
+            case 384:
+                possibleHashFunctions = [
+                    "SHA-384",
+                    "SHA3-384",
+                    "ECOH-384",
+                    "FSB-384",
+                ];
+                break;
+            case 512:
+                possibleHashFunctions = [
+                    "SHA-512",
+                    "SHA3-512",
+                    "BLAKE-512",
+                    "ECOH-512",
+                    "FSB-512",
+                    "Grøstl-512",
+                    "JH",
+                    "MD6",
+                    "Spectral Hash",
+                    "SWIFFT",
+                    "Whirlpool",
+                ];
+                break;
+            case 1024:
+                possibleHashFunctions = [
+                    "Fowler-Noll-Vo",
+                ];
+                break;
+            default:
+                possibleHashFunctions = [
+                    "Unknown"
+                ];
+                break;
+        }
+
+        return output + possibleHashFunctions.join("\n");
+    },
+
+};
+
+export default Hash;
+</pre>
+    </article>
+</section>
+
+
+
+
+
+		</div>
+	</div>
+
+	<div class="clearfix"></div>
+
+	
+
+</div>
+</div>
+
+
+    <div class="modal fade" id="searchResults">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Search results</h4>
+          </div>
+          <div class="modal-body"></div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div>
+
+
+<footer>
+
+
+	<span class="copyright">
+	&copy; Crown Copyright 2017
+	</span>
+
+<span class="jsdoc-message">
+	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a>
+	
+		on Sun Mar 4th 2018
+	
+	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
+</span>
+</footer>
+
+<script src="scripts/docstrap.lib.js"></script>
+<script src="scripts/toc.js"></script>
+
+    <script type="text/javascript" src="scripts/fulltext-search-ui.js"></script>
+
+
+<script>
+$( function () {
+	$( "[id*='$']" ).each( function () {
+		var $this = $( this );
+
+		$this.attr( "id", $this.attr( "id" ).replace( "$", "__" ) );
+	} );
+
+	$( ".tutorial-section pre, .readme-section pre, pre.prettyprint.source" ).each( function () {
+		var $this = $( this );
+
+		var example = $this.find( "code" );
+		exampleText = example.html();
+		var lang = /{@lang (.*?)}/.exec( exampleText );
+		if ( lang && lang[1] ) {
+			exampleText = exampleText.replace( lang[0], "" );
+			example.html( exampleText );
+			lang = lang[1];
+		} else {
+			var langClassMatch = example.parent()[0].className.match(/lang\-(\S+)/);
+			lang = langClassMatch ? langClassMatch[1] : "javascript";
+		}
+
+		if ( lang ) {
+
+			$this
+			.addClass( "sunlight-highlight-" + lang )
+			.addClass( "linenums" )
+			.html( example.html() );
+
+		}
+	} );
+
+	Sunlight.highlightAll( {
+		lineNumbers : true,
+		showMenu : true,
+		enableDoclinks : true
+	} );
+
+	$.catchAnchorLinks( {
+        navbarOffset: 10
+	} );
+	$( "#toc" ).toc( {
+		anchorName  : function ( i, heading, prefix ) {
+			return $( heading ).attr( "id" ) || ( prefix + i );
+		},
+		selectors   : "#toc-content h1,#toc-content h2,#toc-content h3,#toc-content h4",
+		showAndHide : false,
+		smoothScrolling: true
+	} );
+
+	$( "#main span[id^='toc']" ).addClass( "toc-shim" );
+	$( '.dropdown-toggle' ).dropdown();
+
+    $( "table" ).each( function () {
+      var $this = $( this );
+      $this.addClass('table');
+    } );
+
+} );
+</script>
+
+
+
+<!--Navigation and Symbol Display-->
+
+
+<!--Google Analytics-->
+
+
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            SearcherDisplay.init();
+        });
+    </script>
+
+
+</body>
+</html>

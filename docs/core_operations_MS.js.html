@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<title>CyberChef Source: core/operations/MS.js</title>
+
+	<!--[if lt IE 9]>
+	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	<link type="text/css" rel="stylesheet" href="styles/sunlight.default.css">
+
+	<link type="text/css" rel="stylesheet" href="styles/site.cerulean.css">
+
+</head>
+
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top navbar-inverse">
+<div class="container">
+	<div class="navbar-header">
+		<a class="navbar-brand" href="index.html"><img class="branding-logo" src="cyberchef-32x32.png"
+		alt="logo"/>CyberChef</a>
+		<button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#topNavigation">
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+        </button>
+	</div>
+	<div class="navbar-collapse collapse" id="topNavigation">
+		<ul class="nav navbar-nav">
+			
+			<li class="dropdown">
+				<a href="namespaces.list.html" class="dropdown-toggle" data-toggle="dropdown">Namespaces<b class="caret"></b></a>
+				<ul class="dropdown-menu inline">
+					<li><a href="FlowControl.html">FlowControl</a></li><li><a href="Arithmetic.html">Arithmetic</a></li><li><a href="Base.html">Base</a></li><li><a href="Base58.html">Base58</a></li><li><a href="Base64.html">Base64</a></li><li><a href="BCD.html">BCD</a></li><li><a href="BitwiseOp.html">BitwiseOp</a></li><li><a href="ByteRepr.html">ByteRepr</a></li><li><a href="CharEnc.html">CharEnc</a></li><li><a href="Checksum.html">Checksum</a></li><li><a href="Cipher.html">Cipher</a></li><li><a href="Code.html">Code</a></li><li><a href="Compress.html">Compress</a></li><li><a href="Convert.html">Convert</a></li><li><a href="DateTime.html">DateTime</a></li><li><a href="Diff.html">Diff</a></li><li><a href="Endian.html">Endian</a></li><li><a href="Entropy.html">Entropy</a></li><li><a href="Extract.html">Extract</a></li><li><a href="Filetime.html">Filetime</a></li><li><a href="FileType.html">FileType</a></li><li><a href="Hash.html">Hash</a></li><li><a href="Hexdump.html">Hexdump</a></li><li><a href="HTML.html">HTML</a></li><li><a href="HTTP.html">HTTP</a></li><li><a href="Image.html">Image</a></li><li><a href="IP.html">IP</a></li><li><a href="JS.html">JS</a></li><li><a href="MAC.html">MAC</a></li><li><a href="MorseCode.html">MorseCode</a></li><li><a href="MS.html">MS</a></li><li><a href="NetBIOS.html">NetBIOS</a></li><li><a href="Numberwang.html">Numberwang</a></li><li><a href="OS.html">OS</a></li><li><a href="OTP.html">OTP</a></li><li><a href="PHP.html">PHP</a></li><li><a href="PublicKey.html">PublicKey</a></li><li><a href="Punycode.html">Punycode</a></li><li><a href="QuotedPrintable.html">QuotedPrintable</a></li><li><a href="Regex.html">Regex</a></li><li><a href="Rotate.html">Rotate</a></li><li><a href="SeqUtils.html">SeqUtils</a></li><li><a href="Shellcode.html">Shellcode</a></li><li><a href="StrUtils.html">StrUtils</a></li><li><a href="Tidy.html">Tidy</a></li><li><a href="Unicode.html">Unicode</a></li><li><a href="URL_.html">URL_</a></li><li><a href="UUID.html">UUID</a></li><li><a href="XKCD.html">XKCD</a></li><li><a href="Utils.html">Utils</a></li>
+				</ul>
+			</li>
+			
+			<li class="dropdown">
+				<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b class="caret"></b></a>
+				<ul class="dropdown-menu inline">
+					<li><a href="Chef.html">Chef</a></li><li><a href="Dish.html">Dish</a></li><li><a href="Ingredient.html">Ingredient</a></li><li><a href="Operation.html">Operation</a></li><li><a href="Recipe.html">Recipe</a></li><li><a href="App.html">App</a></li><li><a href="BindingsWaiter.html">BindingsWaiter</a></li><li><a href="ControlsWaiter.html">ControlsWaiter</a></li><li><a href="HighlighterWaiter.html">HighlighterWaiter</a></li><li><a href="HTMLCategory.html">HTMLCategory</a></li><li><a href="HTMLIngredient.html">HTMLIngredient</a></li><li><a href="HTMLOperation.html">HTMLOperation</a></li><li><a href="InputWaiter.html">InputWaiter</a></li><li><a href="Manager.html">Manager</a></li><li><a href="OperationsWaiter.html">OperationsWaiter</a></li><li><a href="OptionsWaiter.html">OptionsWaiter</a></li><li><a href="OutputWaiter.html">OutputWaiter</a></li><li><a href="RecipeWaiter.html">RecipeWaiter</a></li><li><a href="SeasonalWaiter.html">SeasonalWaiter</a></li><li><a href="WindowWaiter.html">WindowWaiter</a></li><li><a href="WorkerWaiter.html">WorkerWaiter</a></li>
+				</ul>
+			</li>
+			
+			<li class="dropdown">
+				<a href="events.list.html" class="dropdown-toggle" data-toggle="dropdown">Events<b class="caret"></b></a>
+				<ul class="dropdown-menu inline">
+					<li><a href="Manager.html#event:appstart">Manager#event:appstart</a></li><li><a href="Manager.html#event:apploaded">Manager#event:apploaded</a></li><li><a href="Manager.html#event:operationadd">Manager#event:operationadd</a></li><li><a href="Manager.html#event:operationremove">Manager#event:operationremove</a></li><li><a href="Manager.html#event:oplistcreate">Manager#event:oplistcreate</a></li><li><a href="Manager.html#event:statechange">Manager#event:statechange</a></li>
+				</ul>
+			</li>
+			
+			<li class="dropdown">
+				<a href="global.html" class="dropdown-toggle" data-toggle="dropdown">Global<b class="caret"></b></a>
+				<ul class="dropdown-menu inline">
+					<li><a href="global.html#bake">bake</a></li><li><a href="global.html#_asyncToGenerator">_asyncToGenerator</a></li><li><a href="global.html#loadRequiredModules">loadRequiredModules</a></li><li><a href="global.html#calculateHighlights">calculateHighlights</a></li><li><a href="global.html#Categories">Categories</a></li><li><a href="global.html#OpModules">OpModules</a></li><li><a href="global.html#OperationConfig">OperationConfig</a></li><li><a href="global.html#valExport">valExport</a></li><li><a href="global.html#main">main</a></li><li><a href="global.html#sitemap">sitemap</a></li>
+				</ul>
+			</li>
+			
+		</ul>
+        
+            <div class="col-sm-3 col-md-3">
+                <form class="navbar-form" role="search">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search" name="q" id="search-input">
+                        <div class="input-group-btn">
+                            <button class="btn btn-default" id="search-submit"><i class="glyphicon glyphicon-search"></i></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        
+	</div>
+
+</div>
+</div>
+
+
+<div class="container" id="toc-content">
+<div class="row">
+
+	
+	<div class="col-md-12">
+	
+		<div id="main">
+			
+
+		<h1 class="page-title">Source: core/operations/MS.js</h1>
+    
+<section>
+    <article>
+        <pre
+            class="sunlight-highlight-javascript linenums">/**
+ * Microsoft operations.
+ *
+ * @author bmwhitn [brian.m.whitney@outlook.com]
+ * @copyright Crown Copyright 2017
+ * @license Apache-2.0
+ *
+ * @namespace
+ */
+const MS = {
+
+    /**
+     * @constant
+     * @default
+     */
+    D_DECODE: [
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "\x57\x6E\x7B",
+        "\x4A\x4C\x41",
+        "\x0B\x0B\x0B",
+        "\x0C\x0C\x0C",
+        "\x4A\x4C\x41",
+        "\x0E\x0E\x0E",
+        "\x0F\x0F\x0F",
+        "\x10\x10\x10",
+        "\x11\x11\x11",
+        "\x12\x12\x12",
+        "\x13\x13\x13",
+        "\x14\x14\x14",
+        "\x15\x15\x15",
+        "\x16\x16\x16",
+        "\x17\x17\x17",
+        "\x18\x18\x18",
+        "\x19\x19\x19",
+        "\x1A\x1A\x1A",
+        "\x1B\x1B\x1B",
+        "\x1C\x1C\x1C",
+        "\x1D\x1D\x1D",
+        "\x1E\x1E\x1E",
+        "\x1F\x1F\x1F",
+        "\x2E\x2D\x32",
+        "\x47\x75\x30",
+        "\x7A\x52\x21",
+        "\x56\x60\x29",
+        "\x42\x71\x5B",
+        "\x6A\x5E\x38",
+        "\x2F\x49\x33",
+        "\x26\x5C\x3D",
+        "\x49\x62\x58",
+        "\x41\x7D\x3A",
+        "\x34\x29\x35",
+        "\x32\x36\x65",
+        "\x5B\x20\x39",
+        "\x76\x7C\x5C",
+        "\x72\x7A\x56",
+        "\x43\x7F\x73",
+        "\x38\x6B\x66",
+        "\x39\x63\x4E",
+        "\x70\x33\x45",
+        "\x45\x2B\x6B",
+        "\x68\x68\x62",
+        "\x71\x51\x59",
+        "\x4F\x66\x78",
+        "\x09\x76\x5E",
+        "\x62\x31\x7D",
+        "\x44\x64\x4A",
+        "\x23\x54\x6D",
+        "\x75\x43\x71",
+        "\x4A\x4C\x41",
+        "\x7E\x3A\x60",
+        "\x4A\x4C\x41",
+        "\x5E\x7E\x53",
+        "\x40\x4C\x40",
+        "\x77\x45\x42",
+        "\x4A\x2C\x27",
+        "\x61\x2A\x48",
+        "\x5D\x74\x72",
+        "\x22\x27\x75",
+        "\x4B\x37\x31",
+        "\x6F\x44\x37",
+        "\x4E\x79\x4D",
+        "\x3B\x59\x52",
+        "\x4C\x2F\x22",
+        "\x50\x6F\x54",
+        "\x67\x26\x6A",
+        "\x2A\x72\x47",
+        "\x7D\x6A\x64",
+        "\x74\x39\x2D",
+        "\x54\x7B\x20",
+        "\x2B\x3F\x7F",
+        "\x2D\x38\x2E",
+        "\x2C\x77\x4C",
+        "\x30\x67\x5D",
+        "\x6E\x53\x7E",
+        "\x6B\x47\x6C",
+        "\x66\x34\x6F",
+        "\x35\x78\x79",
+        "\x25\x5D\x74",
+        "\x21\x30\x43",
+        "\x64\x23\x26",
+        "\x4D\x5A\x76",
+        "\x52\x5B\x25",
+        "\x63\x6C\x24",
+        "\x3F\x48\x2B",
+        "\x7B\x55\x28",
+        "\x78\x70\x23",
+        "\x29\x69\x41",
+        "\x28\x2E\x34",
+        "\x73\x4C\x09",
+        "\x59\x21\x2A",
+        "\x33\x24\x44",
+        "\x7F\x4E\x3F",
+        "\x6D\x50\x77",
+        "\x55\x09\x3B",
+        "\x53\x56\x55",
+        "\x7C\x73\x69",
+        "\x3A\x35\x61",
+        "\x5F\x61\x63",
+        "\x65\x4B\x50",
+        "\x46\x58\x67",
+        "\x58\x3B\x51",
+        "\x31\x57\x49",
+        "\x69\x22\x4F",
+        "\x6C\x6D\x46",
+        "\x5A\x4D\x68",
+        "\x48\x25\x7C",
+        "\x27\x28\x36",
+        "\x5C\x46\x70",
+        "\x3D\x4A\x6E",
+        "\x24\x32\x7A",
+        "\x79\x41\x2F",
+        "\x37\x3D\x5F",
+        "\x60\x5F\x4B",
+        "\x51\x4F\x5A",
+        "\x20\x42\x2C",
+        "\x36\x65\x57"
+    ],
+
+    /**
+     * @constant
+     * @default
+     */
+    D_COMBINATION: [
+        0, 1, 2, 0, 1, 2, 1, 2, 2, 1, 2, 1, 0, 2, 1, 2, 0, 2, 1, 2, 0, 0, 1, 2, 2, 1, 0, 2, 1, 2, 2, 1,
+        0, 0, 2, 1, 2, 1, 2, 0, 2, 0, 0, 1, 2, 0, 2, 1, 0, 2, 1, 2, 0, 0, 1, 2, 2, 0, 0, 1, 2, 0, 2, 1
+    ],
+
+
+    /**
+     * Decodes Microsoft Encoded Script files that can be read and executed by cscript.exe/wscript.exe.
+     * This is a conversion of a Python script that was originally created by Didier Stevens
+     * (https://DidierStevens.com).
+     *
+     * @private
+     * @param {string} data
+     * @returns {string}
+     */
+    _decode: function (data) {
+        let result = [];
+        let index = -1;
+        data = data.replace(/@&amp;/g, String.fromCharCode(10))
+            .replace(/@#/g, String.fromCharCode(13))
+            .replace(/@\*/g, ">")
+            .replace(/@!/g, "&lt;")
+            .replace(/@\$/g, "@");
+
+        for (let i = 0; i &lt; data.length; i++) {
+            let byte = data.charCodeAt(i);
+            let char = data.charAt(i);
+            if (byte &lt; 128) {
+                index++;
+            }
+
+            if ((byte === 9 || byte > 31 &amp;&amp; byte &lt; 128) &amp;&amp;
+                byte !== 60 &amp;&amp;
+                byte !== 62 &amp;&amp;
+                byte !== 64) {
+                char = MS.D_DECODE[byte].charAt(MS.D_COMBINATION[index % 64]);
+            }
+            result.push(char);
+        }
+        return result.join("");
+    },
+
+
+    /**
+     * Microsoft Script Decoder operation.
+     *
+     * @param {string} input
+     * @param {Object[]} args
+     * @returns {string}
+     */
+    runDecodeScript: function (input, args) {
+        let matcher = /#@~\^.{6}==(.+).{6}==\^#~@/;
+        let encodedData = matcher.exec(input);
+        if (encodedData){
+            return MS._decode(encodedData[1]);
+        } else {
+            return "";
+        }
+    }
+
+};
+
+export default MS;
+</pre>
+    </article>
+</section>
+
+
+
+
+
+		</div>
+	</div>
+
+	<div class="clearfix"></div>
+
+	
+
+</div>
+</div>
+
+
+    <div class="modal fade" id="searchResults">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Search results</h4>
+          </div>
+          <div class="modal-body"></div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div>
+
+
+<footer>
+
+
+	<span class="copyright">
+	&copy; Crown Copyright 2017
+	</span>
+
+<span class="jsdoc-message">
+	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a>
+	
+		on Sun Mar 4th 2018
+	
+	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
+</span>
+</footer>
+
+<script src="scripts/docstrap.lib.js"></script>
+<script src="scripts/toc.js"></script>
+
+    <script type="text/javascript" src="scripts/fulltext-search-ui.js"></script>
+
+
+<script>
+$( function () {
+	$( "[id*='$']" ).each( function () {
+		var $this = $( this );
+
+		$this.attr( "id", $this.attr( "id" ).replace( "$", "__" ) );
+	} );
+
+	$( ".tutorial-section pre, .readme-section pre, pre.prettyprint.source" ).each( function () {
+		var $this = $( this );
+
+		var example = $this.find( "code" );
+		exampleText = example.html();
+		var lang = /{@lang (.*?)}/.exec( exampleText );
+		if ( lang && lang[1] ) {
+			exampleText = exampleText.replace( lang[0], "" );
+			example.html( exampleText );
+			lang = lang[1];
+		} else {
+			var langClassMatch = example.parent()[0].className.match(/lang\-(\S+)/);
+			lang = langClassMatch ? langClassMatch[1] : "javascript";
+		}
+
+		if ( lang ) {
+
+			$this
+			.addClass( "sunlight-highlight-" + lang )
+			.addClass( "linenums" )
+			.html( example.html() );
+
+		}
+	} );
+
+	Sunlight.highlightAll( {
+		lineNumbers : true,
+		showMenu : true,
+		enableDoclinks : true
+	} );
+
+	$.catchAnchorLinks( {
+        navbarOffset: 10
+	} );
+	$( "#toc" ).toc( {
+		anchorName  : function ( i, heading, prefix ) {
+			return $( heading ).attr( "id" ) || ( prefix + i );
+		},
+		selectors   : "#toc-content h1,#toc-content h2,#toc-content h3,#toc-content h4",
+		showAndHide : false,
+		smoothScrolling: true
+	} );
+
+	$( "#main span[id^='toc']" ).addClass( "toc-shim" );
+	$( '.dropdown-toggle' ).dropdown();
+
+    $( "table" ).each( function () {
+      var $this = $( this );
+      $this.addClass('table');
+    } );
+
+} );
+</script>
+
+
+
+<!--Navigation and Symbol Display-->
+
+
+<!--Google Analytics-->
+
+
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            SearcherDisplay.init();
+        });
+    </script>
+
+
+</body>
+</html>

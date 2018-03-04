@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<title>CyberChef Source: web/InputWaiter.js</title>
+
+	<!--[if lt IE 9]>
+	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	<link type="text/css" rel="stylesheet" href="styles/sunlight.default.css">
+
+	<link type="text/css" rel="stylesheet" href="styles/site.cerulean.css">
+
+</head>
+
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top navbar-inverse">
+<div class="container">
+	<div class="navbar-header">
+		<a class="navbar-brand" href="index.html"><img class="branding-logo" src="cyberchef-32x32.png"
+		alt="logo"/>CyberChef</a>
+		<button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#topNavigation">
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+        </button>
+	</div>
+	<div class="navbar-collapse collapse" id="topNavigation">
+		<ul class="nav navbar-nav">
+			
+			<li class="dropdown">
+				<a href="namespaces.list.html" class="dropdown-toggle" data-toggle="dropdown">Namespaces<b class="caret"></b></a>
+				<ul class="dropdown-menu inline">
+					<li><a href="FlowControl.html">FlowControl</a></li><li><a href="Arithmetic.html">Arithmetic</a></li><li><a href="Base.html">Base</a></li><li><a href="Base58.html">Base58</a></li><li><a href="Base64.html">Base64</a></li><li><a href="BCD.html">BCD</a></li><li><a href="BitwiseOp.html">BitwiseOp</a></li><li><a href="ByteRepr.html">ByteRepr</a></li><li><a href="CharEnc.html">CharEnc</a></li><li><a href="Checksum.html">Checksum</a></li><li><a href="Cipher.html">Cipher</a></li><li><a href="Code.html">Code</a></li><li><a href="Compress.html">Compress</a></li><li><a href="Convert.html">Convert</a></li><li><a href="DateTime.html">DateTime</a></li><li><a href="Diff.html">Diff</a></li><li><a href="Endian.html">Endian</a></li><li><a href="Entropy.html">Entropy</a></li><li><a href="Extract.html">Extract</a></li><li><a href="Filetime.html">Filetime</a></li><li><a href="FileType.html">FileType</a></li><li><a href="Hash.html">Hash</a></li><li><a href="Hexdump.html">Hexdump</a></li><li><a href="HTML.html">HTML</a></li><li><a href="HTTP.html">HTTP</a></li><li><a href="Image.html">Image</a></li><li><a href="IP.html">IP</a></li><li><a href="JS.html">JS</a></li><li><a href="MAC.html">MAC</a></li><li><a href="MorseCode.html">MorseCode</a></li><li><a href="MS.html">MS</a></li><li><a href="NetBIOS.html">NetBIOS</a></li><li><a href="Numberwang.html">Numberwang</a></li><li><a href="OS.html">OS</a></li><li><a href="OTP.html">OTP</a></li><li><a href="PHP.html">PHP</a></li><li><a href="PublicKey.html">PublicKey</a></li><li><a href="Punycode.html">Punycode</a></li><li><a href="QuotedPrintable.html">QuotedPrintable</a></li><li><a href="Regex.html">Regex</a></li><li><a href="Rotate.html">Rotate</a></li><li><a href="SeqUtils.html">SeqUtils</a></li><li><a href="Shellcode.html">Shellcode</a></li><li><a href="StrUtils.html">StrUtils</a></li><li><a href="Tidy.html">Tidy</a></li><li><a href="Unicode.html">Unicode</a></li><li><a href="URL_.html">URL_</a></li><li><a href="UUID.html">UUID</a></li><li><a href="XKCD.html">XKCD</a></li><li><a href="Utils.html">Utils</a></li>
+				</ul>
+			</li>
+			
+			<li class="dropdown">
+				<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b class="caret"></b></a>
+				<ul class="dropdown-menu inline">
+					<li><a href="Chef.html">Chef</a></li><li><a href="Dish.html">Dish</a></li><li><a href="Ingredient.html">Ingredient</a></li><li><a href="Operation.html">Operation</a></li><li><a href="Recipe.html">Recipe</a></li><li><a href="App.html">App</a></li><li><a href="BindingsWaiter.html">BindingsWaiter</a></li><li><a href="ControlsWaiter.html">ControlsWaiter</a></li><li><a href="HighlighterWaiter.html">HighlighterWaiter</a></li><li><a href="HTMLCategory.html">HTMLCategory</a></li><li><a href="HTMLIngredient.html">HTMLIngredient</a></li><li><a href="HTMLOperation.html">HTMLOperation</a></li><li><a href="InputWaiter.html">InputWaiter</a></li><li><a href="Manager.html">Manager</a></li><li><a href="OperationsWaiter.html">OperationsWaiter</a></li><li><a href="OptionsWaiter.html">OptionsWaiter</a></li><li><a href="OutputWaiter.html">OutputWaiter</a></li><li><a href="RecipeWaiter.html">RecipeWaiter</a></li><li><a href="SeasonalWaiter.html">SeasonalWaiter</a></li><li><a href="WindowWaiter.html">WindowWaiter</a></li><li><a href="WorkerWaiter.html">WorkerWaiter</a></li>
+				</ul>
+			</li>
+			
+			<li class="dropdown">
+				<a href="events.list.html" class="dropdown-toggle" data-toggle="dropdown">Events<b class="caret"></b></a>
+				<ul class="dropdown-menu inline">
+					<li><a href="Manager.html#event:appstart">Manager#event:appstart</a></li><li><a href="Manager.html#event:apploaded">Manager#event:apploaded</a></li><li><a href="Manager.html#event:operationadd">Manager#event:operationadd</a></li><li><a href="Manager.html#event:operationremove">Manager#event:operationremove</a></li><li><a href="Manager.html#event:oplistcreate">Manager#event:oplistcreate</a></li><li><a href="Manager.html#event:statechange">Manager#event:statechange</a></li>
+				</ul>
+			</li>
+			
+			<li class="dropdown">
+				<a href="global.html" class="dropdown-toggle" data-toggle="dropdown">Global<b class="caret"></b></a>
+				<ul class="dropdown-menu inline">
+					<li><a href="global.html#bake">bake</a></li><li><a href="global.html#_asyncToGenerator">_asyncToGenerator</a></li><li><a href="global.html#loadRequiredModules">loadRequiredModules</a></li><li><a href="global.html#calculateHighlights">calculateHighlights</a></li><li><a href="global.html#Categories">Categories</a></li><li><a href="global.html#OpModules">OpModules</a></li><li><a href="global.html#OperationConfig">OperationConfig</a></li><li><a href="global.html#valExport">valExport</a></li><li><a href="global.html#main">main</a></li><li><a href="global.html#sitemap">sitemap</a></li>
+				</ul>
+			</li>
+			
+		</ul>
+        
+            <div class="col-sm-3 col-md-3">
+                <form class="navbar-form" role="search">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search" name="q" id="search-input">
+                        <div class="input-group-btn">
+                            <button class="btn btn-default" id="search-submit"><i class="glyphicon glyphicon-search"></i></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        
+	</div>
+
+</div>
+</div>
+
+
+<div class="container" id="toc-content">
+<div class="row">
+
+	
+	<div class="col-md-12">
+	
+		<div id="main">
+			
+
+		<h1 class="page-title">Source: web/InputWaiter.js</h1>
+    
+<section>
+    <article>
+        <pre
+            class="sunlight-highlight-javascript linenums">import LoaderWorker from "worker-loader?inline&amp;fallback=false!./LoaderWorker.js";
+import Utils from "../core/Utils.js";
+
+
+/**
+ * Waiter to handle events related to the input.
+ *
+ * @author n1474335 [n1474335@gmail.com]
+ * @copyright Crown Copyright 2016
+ * @license Apache-2.0
+ *
+ * @constructor
+ * @param {App} app - The main view object for CyberChef.
+ * @param {Manager} manager - The CyberChef event manager.
+ */
+const InputWaiter = function(app, manager) {
+    this.app = app;
+    this.manager = manager;
+
+    // Define keys that don't change the input so we don't have to autobake when they are pressed
+    this.badKeys = [
+        16, //Shift
+        17, //Ctrl
+        18, //Alt
+        19, //Pause
+        20, //Caps
+        27, //Esc
+        33, 34, 35, 36, //PgUp, PgDn, End, Home
+        37, 38, 39, 40, //Directional
+        44, //PrntScrn
+        91, 92, //Win
+        93, //Context
+        112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, //F1-12
+        144, //Num
+        145, //Scroll
+    ];
+
+    this.loaderWorker = null;
+    this.fileBuffer = null;
+};
+
+
+/**
+ * Gets the user's input from the input textarea.
+ *
+ * @returns {string}
+ */
+InputWaiter.prototype.get = function() {
+    return this.fileBuffer || document.getElementById("input-text").value;
+};
+
+
+/**
+ * Sets the input in the input area.
+ *
+ * @param {string|File} input
+ *
+ * @fires Manager#statechange
+ */
+InputWaiter.prototype.set = function(input) {
+    const inputText = document.getElementById("input-text");
+    if (input instanceof File) {
+        this.setFile(input);
+        inputText.value = "";
+        this.setInputInfo(input.size, null);
+    } else {
+        inputText.value = input;
+        this.closeFile();
+        window.dispatchEvent(this.manager.statechange);
+        const lines = input.length &lt; (this.app.options.ioDisplayThreshold * 1024) ?
+            input.count("\n") + 1 : null;
+        this.setInputInfo(input.length, lines);
+    }
+};
+
+
+/**
+ * Shows file details.
+ *
+ * @param {File} file
+ */
+InputWaiter.prototype.setFile = function(file) {
+    // Display file overlay in input area with details
+    const fileOverlay = document.getElementById("input-file"),
+        fileName = document.getElementById("input-file-name"),
+        fileSize = document.getElementById("input-file-size"),
+        fileType = document.getElementById("input-file-type"),
+        fileLoaded = document.getElementById("input-file-loaded");
+
+    this.fileBuffer = new ArrayBuffer();
+    fileOverlay.style.display = "block";
+    fileName.textContent = file.name;
+    fileSize.textContent = file.size.toLocaleString() + " bytes";
+    fileType.textContent = file.type || "unknown";
+    fileLoaded.textContent = "0%";
+};
+
+
+/**
+ * Displays information about the input.
+ *
+ * @param {number} length - The length of the current input string
+ * @param {number} lines - The number of the lines in the current input string
+ */
+InputWaiter.prototype.setInputInfo = function(length, lines) {
+    let width = length.toString().length;
+    width = width &lt; 2 ? 2 : width;
+
+    const lengthStr = length.toString().padStart(width, " ").replace(/ /g, "&amp;nbsp;");
+    let msg = "length: " + lengthStr;
+
+    if (typeof lines === "number") {
+        const linesStr = lines.toString().padStart(width, " ").replace(/ /g, "&amp;nbsp;");
+        msg += "&lt;br>lines: " + linesStr;
+    }
+
+    document.getElementById("input-info").innerHTML = msg;
+};
+
+
+/**
+ * Handler for input change events.
+ *
+ * @param {event} e
+ *
+ * @fires Manager#statechange
+ */
+InputWaiter.prototype.inputChange = function(e) {
+    // Ignore this function if the input is a File
+    if (this.fileBuffer) return;
+
+    // Remove highlighting from input and output panes as the offsets might be different now
+    this.manager.highlighter.removeHighlights();
+
+    // Reset recipe progress as any previous processing will be redundant now
+    this.app.progress = 0;
+
+    // Update the input metadata info
+    const inputText = this.get();
+    const lines = inputText.length &lt; (this.app.options.ioDisplayThreshold * 1024) ?
+        inputText.count("\n") + 1 : null;
+
+    this.setInputInfo(inputText.length, lines);
+
+    if (e &amp;&amp; this.badKeys.indexOf(e.keyCode) &lt; 0) {
+        // Fire the statechange event as the input has been modified
+        window.dispatchEvent(this.manager.statechange);
+    }
+};
+
+
+/**
+ * Handler for input paste events.
+ * Checks that the size of the input is below the display limit, otherwise treats it as a file/blob.
+ *
+ * @param {event} e
+ */
+InputWaiter.prototype.inputPaste = function(e) {
+    const pastedData = e.clipboardData.getData("Text");
+
+    if (pastedData.length &lt; (this.app.options.ioDisplayThreshold * 1024)) {
+        this.inputChange(e);
+    } else {
+        e.preventDefault();
+        e.stopPropagation();
+
+        const file = new File([pastedData], "PastedData", {
+            type: "text/plain",
+            lastModified: Date.now()
+        });
+
+        this.loaderWorker = new LoaderWorker();
+        this.loaderWorker.addEventListener("message", this.handleLoaderMessage.bind(this));
+        this.loaderWorker.postMessage({"file": file});
+        this.set(file);
+        return false;
+    }
+};
+
+
+/**
+ * Handler for input dragover events.
+ * Gives the user a visual cue to show that items can be dropped here.
+ *
+ * @param {event} e
+ */
+InputWaiter.prototype.inputDragover = function(e) {
+    // This will be set if we're dragging an operation
+    if (e.dataTransfer.effectAllowed === "move")
+        return false;
+
+    e.stopPropagation();
+    e.preventDefault();
+    e.target.closest("#input-text,#input-file").classList.add("dropping-file");
+};
+
+
+/**
+ * Handler for input dragleave events.
+ * Removes the visual cue.
+ *
+ * @param {event} e
+ */
+InputWaiter.prototype.inputDragleave = function(e) {
+    e.stopPropagation();
+    e.preventDefault();
+    document.getElementById("input-text").classList.remove("dropping-file");
+    document.getElementById("input-file").classList.remove("dropping-file");
+};
+
+
+/**
+ * Handler for input drop events.
+ * Loads the dragged data into the input textarea.
+ *
+ * @param {event} e
+ */
+InputWaiter.prototype.inputDrop = function(e) {
+    // This will be set if we're dragging an operation
+    if (e.dataTransfer.effectAllowed === "move")
+        return false;
+
+    e.stopPropagation();
+    e.preventDefault();
+
+    const file = e.dataTransfer.files[0];
+    const text = e.dataTransfer.getData("Text");
+
+    document.getElementById("input-text").classList.remove("dropping-file");
+    document.getElementById("input-file").classList.remove("dropping-file");
+
+    if (text) {
+        this.closeFile();
+        this.set(text);
+        return;
+    }
+
+    if (file) {
+        this.closeFile();
+        this.loaderWorker = new LoaderWorker();
+        this.loaderWorker.addEventListener("message", this.handleLoaderMessage.bind(this));
+        this.loaderWorker.postMessage({"file": file});
+        this.set(file);
+    }
+};
+
+
+/**
+ * Handler for messages sent back by the LoaderWorker.
+ *
+ * @param {MessageEvent} e
+ */
+InputWaiter.prototype.handleLoaderMessage = function(e) {
+    const r = e.data;
+    if (r.hasOwnProperty("progress")) {
+        const fileLoaded = document.getElementById("input-file-loaded");
+        fileLoaded.textContent = r.progress + "%";
+    }
+
+    if (r.hasOwnProperty("error")) {
+        this.app.alert(r.error, "danger", 10000);
+    }
+
+    if (r.hasOwnProperty("fileBuffer")) {
+        log.debug("Input file loaded");
+        this.fileBuffer = r.fileBuffer;
+        this.displayFilePreview();
+        window.dispatchEvent(this.manager.statechange);
+    }
+};
+
+
+/**
+ * Shows a chunk of the file in the input behind the file overlay.
+ */
+InputWaiter.prototype.displayFilePreview = function() {
+    const inputText = document.getElementById("input-text"),
+        fileSlice = this.fileBuffer.slice(0, 4096);
+
+    inputText.style.overflow = "hidden";
+    inputText.classList.add("blur");
+    inputText.value = Utils.printable(Utils.arrayBufferToStr(fileSlice));
+    if (this.fileBuffer.byteLength > 4096) {
+        inputText.value += "[truncated]...";
+    }
+};
+
+
+/**
+ * Handler for file close events.
+ */
+InputWaiter.prototype.closeFile = function() {
+    if (this.loaderWorker) this.loaderWorker.terminate();
+    this.fileBuffer = null;
+    document.getElementById("input-file").style.display = "none";
+    const inputText = document.getElementById("input-text");
+    inputText.style.overflow = "auto";
+    inputText.classList.remove("blur");
+};
+
+
+/**
+ * Handler for clear IO events.
+ * Resets the input, output and info areas.
+ *
+ * @fires Manager#statechange
+ */
+InputWaiter.prototype.clearIoClick = function() {
+    this.closeFile();
+    this.manager.output.closeFile();
+    this.manager.highlighter.removeHighlights();
+    document.getElementById("input-text").value = "";
+    document.getElementById("output-text").value = "";
+    document.getElementById("input-info").innerHTML = "";
+    document.getElementById("output-info").innerHTML = "";
+    document.getElementById("input-selection-info").innerHTML = "";
+    document.getElementById("output-selection-info").innerHTML = "";
+    window.dispatchEvent(this.manager.statechange);
+};
+
+export default InputWaiter;
+</pre>
+    </article>
+</section>
+
+
+
+
+
+		</div>
+	</div>
+
+	<div class="clearfix"></div>
+
+	
+
+</div>
+</div>
+
+
+    <div class="modal fade" id="searchResults">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Search results</h4>
+          </div>
+          <div class="modal-body"></div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div>
+
+
+<footer>
+
+
+	<span class="copyright">
+	&copy; Crown Copyright 2017
+	</span>
+
+<span class="jsdoc-message">
+	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a>
+	
+		on Sun Mar 4th 2018
+	
+	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
+</span>
+</footer>
+
+<script src="scripts/docstrap.lib.js"></script>
+<script src="scripts/toc.js"></script>
+
+    <script type="text/javascript" src="scripts/fulltext-search-ui.js"></script>
+
+
+<script>
+$( function () {
+	$( "[id*='$']" ).each( function () {
+		var $this = $( this );
+
+		$this.attr( "id", $this.attr( "id" ).replace( "$", "__" ) );
+	} );
+
+	$( ".tutorial-section pre, .readme-section pre, pre.prettyprint.source" ).each( function () {
+		var $this = $( this );
+
+		var example = $this.find( "code" );
+		exampleText = example.html();
+		var lang = /{@lang (.*?)}/.exec( exampleText );
+		if ( lang && lang[1] ) {
+			exampleText = exampleText.replace( lang[0], "" );
+			example.html( exampleText );
+			lang = lang[1];
+		} else {
+			var langClassMatch = example.parent()[0].className.match(/lang\-(\S+)/);
+			lang = langClassMatch ? langClassMatch[1] : "javascript";
+		}
+
+		if ( lang ) {
+
+			$this
+			.addClass( "sunlight-highlight-" + lang )
+			.addClass( "linenums" )
+			.html( example.html() );
+
+		}
+	} );
+
+	Sunlight.highlightAll( {
+		lineNumbers : true,
+		showMenu : true,
+		enableDoclinks : true
+	} );
+
+	$.catchAnchorLinks( {
+        navbarOffset: 10
+	} );
+	$( "#toc" ).toc( {
+		anchorName  : function ( i, heading, prefix ) {
+			return $( heading ).attr( "id" ) || ( prefix + i );
+		},
+		selectors   : "#toc-content h1,#toc-content h2,#toc-content h3,#toc-content h4",
+		showAndHide : false,
+		smoothScrolling: true
+	} );
+
+	$( "#main span[id^='toc']" ).addClass( "toc-shim" );
+	$( '.dropdown-toggle' ).dropdown();
+
+    $( "table" ).each( function () {
+      var $this = $( this );
+      $this.addClass('table');
+    } );
+
+} );
+</script>
+
+
+
+<!--Navigation and Symbol Display-->
+
+
+<!--Google Analytics-->
+
+
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            SearcherDisplay.init();
+        });
+    </script>
+
+
+</body>
+</html>

@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<title>CyberChef Source: core/operations/Arithmetic.js</title>
+
+	<!--[if lt IE 9]>
+	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	<link type="text/css" rel="stylesheet" href="styles/sunlight.default.css">
+
+	<link type="text/css" rel="stylesheet" href="styles/site.cerulean.css">
+
+</head>
+
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top navbar-inverse">
+<div class="container">
+	<div class="navbar-header">
+		<a class="navbar-brand" href="index.html"><img class="branding-logo" src="cyberchef-32x32.png"
+		alt="logo"/>CyberChef</a>
+		<button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#topNavigation">
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+        </button>
+	</div>
+	<div class="navbar-collapse collapse" id="topNavigation">
+		<ul class="nav navbar-nav">
+			
+			<li class="dropdown">
+				<a href="namespaces.list.html" class="dropdown-toggle" data-toggle="dropdown">Namespaces<b class="caret"></b></a>
+				<ul class="dropdown-menu inline">
+					<li><a href="FlowControl.html">FlowControl</a></li><li><a href="Arithmetic.html">Arithmetic</a></li><li><a href="Base.html">Base</a></li><li><a href="Base58.html">Base58</a></li><li><a href="Base64.html">Base64</a></li><li><a href="BCD.html">BCD</a></li><li><a href="BitwiseOp.html">BitwiseOp</a></li><li><a href="ByteRepr.html">ByteRepr</a></li><li><a href="CharEnc.html">CharEnc</a></li><li><a href="Checksum.html">Checksum</a></li><li><a href="Cipher.html">Cipher</a></li><li><a href="Code.html">Code</a></li><li><a href="Compress.html">Compress</a></li><li><a href="Convert.html">Convert</a></li><li><a href="DateTime.html">DateTime</a></li><li><a href="Diff.html">Diff</a></li><li><a href="Endian.html">Endian</a></li><li><a href="Entropy.html">Entropy</a></li><li><a href="Extract.html">Extract</a></li><li><a href="Filetime.html">Filetime</a></li><li><a href="FileType.html">FileType</a></li><li><a href="Hash.html">Hash</a></li><li><a href="Hexdump.html">Hexdump</a></li><li><a href="HTML.html">HTML</a></li><li><a href="HTTP.html">HTTP</a></li><li><a href="Image.html">Image</a></li><li><a href="IP.html">IP</a></li><li><a href="JS.html">JS</a></li><li><a href="MAC.html">MAC</a></li><li><a href="MorseCode.html">MorseCode</a></li><li><a href="MS.html">MS</a></li><li><a href="NetBIOS.html">NetBIOS</a></li><li><a href="Numberwang.html">Numberwang</a></li><li><a href="OS.html">OS</a></li><li><a href="OTP.html">OTP</a></li><li><a href="PHP.html">PHP</a></li><li><a href="PublicKey.html">PublicKey</a></li><li><a href="Punycode.html">Punycode</a></li><li><a href="QuotedPrintable.html">QuotedPrintable</a></li><li><a href="Regex.html">Regex</a></li><li><a href="Rotate.html">Rotate</a></li><li><a href="SeqUtils.html">SeqUtils</a></li><li><a href="Shellcode.html">Shellcode</a></li><li><a href="StrUtils.html">StrUtils</a></li><li><a href="Tidy.html">Tidy</a></li><li><a href="Unicode.html">Unicode</a></li><li><a href="URL_.html">URL_</a></li><li><a href="UUID.html">UUID</a></li><li><a href="XKCD.html">XKCD</a></li><li><a href="Utils.html">Utils</a></li>
+				</ul>
+			</li>
+			
+			<li class="dropdown">
+				<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b class="caret"></b></a>
+				<ul class="dropdown-menu inline">
+					<li><a href="Chef.html">Chef</a></li><li><a href="Dish.html">Dish</a></li><li><a href="Ingredient.html">Ingredient</a></li><li><a href="Operation.html">Operation</a></li><li><a href="Recipe.html">Recipe</a></li><li><a href="App.html">App</a></li><li><a href="BindingsWaiter.html">BindingsWaiter</a></li><li><a href="ControlsWaiter.html">ControlsWaiter</a></li><li><a href="HighlighterWaiter.html">HighlighterWaiter</a></li><li><a href="HTMLCategory.html">HTMLCategory</a></li><li><a href="HTMLIngredient.html">HTMLIngredient</a></li><li><a href="HTMLOperation.html">HTMLOperation</a></li><li><a href="InputWaiter.html">InputWaiter</a></li><li><a href="Manager.html">Manager</a></li><li><a href="OperationsWaiter.html">OperationsWaiter</a></li><li><a href="OptionsWaiter.html">OptionsWaiter</a></li><li><a href="OutputWaiter.html">OutputWaiter</a></li><li><a href="RecipeWaiter.html">RecipeWaiter</a></li><li><a href="SeasonalWaiter.html">SeasonalWaiter</a></li><li><a href="WindowWaiter.html">WindowWaiter</a></li><li><a href="WorkerWaiter.html">WorkerWaiter</a></li>
+				</ul>
+			</li>
+			
+			<li class="dropdown">
+				<a href="events.list.html" class="dropdown-toggle" data-toggle="dropdown">Events<b class="caret"></b></a>
+				<ul class="dropdown-menu inline">
+					<li><a href="Manager.html#event:appstart">Manager#event:appstart</a></li><li><a href="Manager.html#event:apploaded">Manager#event:apploaded</a></li><li><a href="Manager.html#event:operationadd">Manager#event:operationadd</a></li><li><a href="Manager.html#event:operationremove">Manager#event:operationremove</a></li><li><a href="Manager.html#event:oplistcreate">Manager#event:oplistcreate</a></li><li><a href="Manager.html#event:statechange">Manager#event:statechange</a></li>
+				</ul>
+			</li>
+			
+			<li class="dropdown">
+				<a href="global.html" class="dropdown-toggle" data-toggle="dropdown">Global<b class="caret"></b></a>
+				<ul class="dropdown-menu inline">
+					<li><a href="global.html#bake">bake</a></li><li><a href="global.html#_asyncToGenerator">_asyncToGenerator</a></li><li><a href="global.html#loadRequiredModules">loadRequiredModules</a></li><li><a href="global.html#calculateHighlights">calculateHighlights</a></li><li><a href="global.html#Categories">Categories</a></li><li><a href="global.html#OpModules">OpModules</a></li><li><a href="global.html#OperationConfig">OperationConfig</a></li><li><a href="global.html#valExport">valExport</a></li><li><a href="global.html#main">main</a></li><li><a href="global.html#sitemap">sitemap</a></li>
+				</ul>
+			</li>
+			
+		</ul>
+        
+            <div class="col-sm-3 col-md-3">
+                <form class="navbar-form" role="search">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search" name="q" id="search-input">
+                        <div class="input-group-btn">
+                            <button class="btn btn-default" id="search-submit"><i class="glyphicon glyphicon-search"></i></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        
+	</div>
+
+</div>
+</div>
+
+
+<div class="container" id="toc-content">
+<div class="row">
+
+	
+	<div class="col-md-12">
+	
+		<div id="main">
+			
+
+		<h1 class="page-title">Source: core/operations/Arithmetic.js</h1>
+    
+<section>
+    <article>
+        <pre
+            class="sunlight-highlight-javascript linenums">import Utils from "../Utils.js";
+import BigNumber from "bignumber.js";
+
+
+/**
+ * Math operations on numbers.
+ *
+ * @author bwhitn [brian.m.whitney@outlook.com]
+ * @copyright Crown Copyright 2016
+ * @license Apache-2.0
+ *
+ * @namespace
+ */
+const Arithmetic = {
+
+    /**
+     * @constant
+     * @default
+     */
+    DELIM_OPTIONS: ["Line feed", "Space", "Comma", "Semi-colon", "Colon", "CRLF"],
+
+
+    /**
+     * Splits a string based on a delimiter and calculates the sum of numbers.
+     *
+     * @param {string} input
+     * @param {Object[]} args
+     * @returns {BigNumber}
+     */
+    runSum: function(input, args) {
+        const val = Arithmetic._sum(Arithmetic._createNumArray(input, args[0]));
+        return val instanceof BigNumber ? val : new BigNumber(NaN);
+    },
+
+
+    /**
+     * Splits a string based on a delimiter and subtracts all the numbers.
+     *
+     * @param {string} input
+     * @param {Object[]} args
+     * @returns {BigNumber}
+     */
+    runSub: function(input, args) {
+        let val = Arithmetic._sub(Arithmetic._createNumArray(input, args[0]));
+        return val instanceof BigNumber ? val : new BigNumber(NaN);
+    },
+
+
+    /**
+     * Splits a string based on a delimiter and multiplies the numbers.
+     *
+     * @param {string} input
+     * @param {Object[]} args
+     * @returns {BigNumber}
+     */
+    runMulti: function(input, args) {
+        let val = Arithmetic._multi(Arithmetic._createNumArray(input, args[0]));
+        return val instanceof BigNumber ? val : new BigNumber(NaN);
+    },
+
+
+    /**
+     * Splits a string based on a delimiter and divides the numbers.
+     *
+     * @param {string} input
+     * @param {Object[]} args
+     * @returns {BigNumber}
+     */
+    runDiv: function(input, args) {
+        let val = Arithmetic._div(Arithmetic._createNumArray(input, args[0]));
+        return val instanceof BigNumber ? val : new BigNumber(NaN);
+    },
+
+
+    /**
+     * Splits a string based on a delimiter and computes the mean (average).
+     *
+     * @param {string} input
+     * @param {Object[]} args
+     * @returns {BigNumber}
+     */
+    runMean: function(input, args) {
+        let val = Arithmetic._mean(Arithmetic._createNumArray(input, args[0]));
+        return val instanceof BigNumber ? val : new BigNumber(NaN);
+    },
+
+
+    /**
+     * Splits a string based on a delimiter and finds the median.
+     *
+     * @param {string} input
+     * @param {Object[]} args
+     * @returns {BigNumber}
+     */
+    runMedian: function(input, args) {
+        let val = Arithmetic._median(Arithmetic._createNumArray(input, args[0]));
+        return val instanceof BigNumber ? val : new BigNumber(NaN);
+    },
+
+
+    /**
+     * splits a string based on a delimiter and computes the standard deviation.
+     *
+     * @param {string} input
+     * @param {Object[]} args
+     * @returns {BigNumber}
+     */
+    runStdDev: function(input, args) {
+        let val = Arithmetic._stdDev(Arithmetic._createNumArray(input, args[0]));
+        return val instanceof BigNumber ? val : new BigNumber(NaN);
+    },
+
+
+    /**
+     * Converts a string array to a number array.
+     *
+     * @private
+     * @param {string[]} input
+     * @param {string} delim
+     * @returns {BigNumber[]}
+     */
+    _createNumArray: function(input, delim) {
+        delim = Utils.charRep[delim || "Space"];
+        let splitNumbers = input.split(delim),
+            numbers = [],
+            num;
+
+        for (let i = 0; i &lt; splitNumbers.length; i++) {
+            try {
+                num = BigNumber(splitNumbers[i].trim());
+                if (!num.isNaN()) {
+                    numbers.push(num);
+                }
+            } catch (err) {
+                // This line is not a valid number
+            }
+        }
+        return numbers;
+    },
+
+
+    /**
+     * Adds an array of numbers and returns the value.
+     *
+     * @private
+     * @param {BigNumber[]} data
+     * @returns {BigNumber}
+     */
+    _sum: function(data) {
+        if (data.length > 0) {
+            return data.reduce((acc, curr) => acc.plus(curr));
+        }
+    },
+
+
+    /**
+     * Subtracts an array of numbers and returns the value.
+     *
+     * @private
+     * @param {BigNumber[]} data
+     * @returns {BigNumber}
+     */
+    _sub: function(data) {
+        if (data.length > 0) {
+            return data.reduce((acc, curr) => acc.minus(curr));
+        }
+    },
+
+
+    /**
+     * Multiplies an array of numbers and returns the value.
+     *
+     * @private
+     * @param {BigNumber[]} data
+     * @returns {BigNumber}
+     */
+    _multi: function(data) {
+        if (data.length > 0) {
+            return data.reduce((acc, curr) => acc.times(curr));
+        }
+    },
+
+
+    /**
+     * Divides an array of numbers and returns the value.
+     *
+     * @private
+     * @param {BigNumber[]} data
+     * @returns {BigNumber}
+     */
+    _div: function(data) {
+        if (data.length > 0) {
+            return data.reduce((acc, curr) => acc.div(curr));
+        }
+    },
+
+
+    /**
+     * Computes mean of a number array and returns the value.
+     *
+     * @private
+     * @param {BigNumber[]} data
+     * @returns {BigNumber}
+     */
+    _mean: function(data) {
+        if (data.length > 0) {
+            return Arithmetic._sum(data).div(data.length);
+        }
+    },
+
+
+    /**
+     * Computes median of a number array and returns the value.
+     *
+     * @private
+     * @param {BigNumber[]} data
+     * @returns {BigNumber}
+     */
+    _median: function (data) {
+        if ((data.length % 2) === 0 &amp;&amp; data.length > 0) {
+            let first, second;
+            data.sort(function(a, b){
+                return a.minus(b);
+            });
+            first = data[Math.floor(data.length / 2)];
+            second = data[Math.floor(data.length / 2) - 1];
+            return Arithmetic._mean([first, second]);
+        } else {
+            return data[Math.floor(data.length / 2)];
+        }
+    },
+
+
+    /**
+     * Computes standard deviation of a number array and returns the value.
+     *
+     * @private
+     * @param {BigNumber[]} data
+     * @returns {BigNumber}
+     */
+    _stdDev: function (data) {
+        if (data.length > 0) {
+            let avg = Arithmetic._mean(data);
+            let devSum = new BigNumber(0);
+            for (let i = 0; i &lt; data.length; i++) {
+                devSum = devSum.plus(data[i].minus(avg).pow(2));
+            }
+            return devSum.div(data.length).sqrt();
+        }
+    },
+};
+
+export default Arithmetic;
+</pre>
+    </article>
+</section>
+
+
+
+
+
+		</div>
+	</div>
+
+	<div class="clearfix"></div>
+
+	
+
+</div>
+</div>
+
+
+    <div class="modal fade" id="searchResults">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Search results</h4>
+          </div>
+          <div class="modal-body"></div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div>
+
+
+<footer>
+
+
+	<span class="copyright">
+	&copy; Crown Copyright 2017
+	</span>
+
+<span class="jsdoc-message">
+	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a>
+	
+		on Sun Mar 4th 2018
+	
+	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
+</span>
+</footer>
+
+<script src="scripts/docstrap.lib.js"></script>
+<script src="scripts/toc.js"></script>
+
+    <script type="text/javascript" src="scripts/fulltext-search-ui.js"></script>
+
+
+<script>
+$( function () {
+	$( "[id*='$']" ).each( function () {
+		var $this = $( this );
+
+		$this.attr( "id", $this.attr( "id" ).replace( "$", "__" ) );
+	} );
+
+	$( ".tutorial-section pre, .readme-section pre, pre.prettyprint.source" ).each( function () {
+		var $this = $( this );
+
+		var example = $this.find( "code" );
+		exampleText = example.html();
+		var lang = /{@lang (.*?)}/.exec( exampleText );
+		if ( lang && lang[1] ) {
+			exampleText = exampleText.replace( lang[0], "" );
+			example.html( exampleText );
+			lang = lang[1];
+		} else {
+			var langClassMatch = example.parent()[0].className.match(/lang\-(\S+)/);
+			lang = langClassMatch ? langClassMatch[1] : "javascript";
+		}
+
+		if ( lang ) {
+
+			$this
+			.addClass( "sunlight-highlight-" + lang )
+			.addClass( "linenums" )
+			.html( example.html() );
+
+		}
+	} );
+
+	Sunlight.highlightAll( {
+		lineNumbers : true,
+		showMenu : true,
+		enableDoclinks : true
+	} );
+
+	$.catchAnchorLinks( {
+        navbarOffset: 10
+	} );
+	$( "#toc" ).toc( {
+		anchorName  : function ( i, heading, prefix ) {
+			return $( heading ).attr( "id" ) || ( prefix + i );
+		},
+		selectors   : "#toc-content h1,#toc-content h2,#toc-content h3,#toc-content h4",
+		showAndHide : false,
+		smoothScrolling: true
+	} );
+
+	$( "#main span[id^='toc']" ).addClass( "toc-shim" );
+	$( '.dropdown-toggle' ).dropdown();
+
+    $( "table" ).each( function () {
+      var $this = $( this );
+      $this.addClass('table');
+    } );
+
+} );
+</script>
+
+
+
+<!--Navigation and Symbol Display-->
+
+
+<!--Google Analytics-->
+
+
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            SearcherDisplay.init();
+        });
+    </script>
+
+
+</body>
+</html>

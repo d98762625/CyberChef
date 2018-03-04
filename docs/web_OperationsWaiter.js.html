@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<title>CyberChef Source: web/OperationsWaiter.js</title>
+
+	<!--[if lt IE 9]>
+	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	<link type="text/css" rel="stylesheet" href="styles/sunlight.default.css">
+
+	<link type="text/css" rel="stylesheet" href="styles/site.cerulean.css">
+
+</head>
+
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top navbar-inverse">
+<div class="container">
+	<div class="navbar-header">
+		<a class="navbar-brand" href="index.html"><img class="branding-logo" src="cyberchef-32x32.png"
+		alt="logo"/>CyberChef</a>
+		<button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#topNavigation">
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+        </button>
+	</div>
+	<div class="navbar-collapse collapse" id="topNavigation">
+		<ul class="nav navbar-nav">
+			
+			<li class="dropdown">
+				<a href="namespaces.list.html" class="dropdown-toggle" data-toggle="dropdown">Namespaces<b class="caret"></b></a>
+				<ul class="dropdown-menu inline">
+					<li><a href="FlowControl.html">FlowControl</a></li><li><a href="Arithmetic.html">Arithmetic</a></li><li><a href="Base.html">Base</a></li><li><a href="Base58.html">Base58</a></li><li><a href="Base64.html">Base64</a></li><li><a href="BCD.html">BCD</a></li><li><a href="BitwiseOp.html">BitwiseOp</a></li><li><a href="ByteRepr.html">ByteRepr</a></li><li><a href="CharEnc.html">CharEnc</a></li><li><a href="Checksum.html">Checksum</a></li><li><a href="Cipher.html">Cipher</a></li><li><a href="Code.html">Code</a></li><li><a href="Compress.html">Compress</a></li><li><a href="Convert.html">Convert</a></li><li><a href="DateTime.html">DateTime</a></li><li><a href="Diff.html">Diff</a></li><li><a href="Endian.html">Endian</a></li><li><a href="Entropy.html">Entropy</a></li><li><a href="Extract.html">Extract</a></li><li><a href="Filetime.html">Filetime</a></li><li><a href="FileType.html">FileType</a></li><li><a href="Hash.html">Hash</a></li><li><a href="Hexdump.html">Hexdump</a></li><li><a href="HTML.html">HTML</a></li><li><a href="HTTP.html">HTTP</a></li><li><a href="Image.html">Image</a></li><li><a href="IP.html">IP</a></li><li><a href="JS.html">JS</a></li><li><a href="MAC.html">MAC</a></li><li><a href="MorseCode.html">MorseCode</a></li><li><a href="MS.html">MS</a></li><li><a href="NetBIOS.html">NetBIOS</a></li><li><a href="Numberwang.html">Numberwang</a></li><li><a href="OS.html">OS</a></li><li><a href="OTP.html">OTP</a></li><li><a href="PHP.html">PHP</a></li><li><a href="PublicKey.html">PublicKey</a></li><li><a href="Punycode.html">Punycode</a></li><li><a href="QuotedPrintable.html">QuotedPrintable</a></li><li><a href="Regex.html">Regex</a></li><li><a href="Rotate.html">Rotate</a></li><li><a href="SeqUtils.html">SeqUtils</a></li><li><a href="Shellcode.html">Shellcode</a></li><li><a href="StrUtils.html">StrUtils</a></li><li><a href="Tidy.html">Tidy</a></li><li><a href="Unicode.html">Unicode</a></li><li><a href="URL_.html">URL_</a></li><li><a href="UUID.html">UUID</a></li><li><a href="XKCD.html">XKCD</a></li><li><a href="Utils.html">Utils</a></li>
+				</ul>
+			</li>
+			
+			<li class="dropdown">
+				<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b class="caret"></b></a>
+				<ul class="dropdown-menu inline">
+					<li><a href="Chef.html">Chef</a></li><li><a href="Dish.html">Dish</a></li><li><a href="Ingredient.html">Ingredient</a></li><li><a href="Operation.html">Operation</a></li><li><a href="Recipe.html">Recipe</a></li><li><a href="App.html">App</a></li><li><a href="BindingsWaiter.html">BindingsWaiter</a></li><li><a href="ControlsWaiter.html">ControlsWaiter</a></li><li><a href="HighlighterWaiter.html">HighlighterWaiter</a></li><li><a href="HTMLCategory.html">HTMLCategory</a></li><li><a href="HTMLIngredient.html">HTMLIngredient</a></li><li><a href="HTMLOperation.html">HTMLOperation</a></li><li><a href="InputWaiter.html">InputWaiter</a></li><li><a href="Manager.html">Manager</a></li><li><a href="OperationsWaiter.html">OperationsWaiter</a></li><li><a href="OptionsWaiter.html">OptionsWaiter</a></li><li><a href="OutputWaiter.html">OutputWaiter</a></li><li><a href="RecipeWaiter.html">RecipeWaiter</a></li><li><a href="SeasonalWaiter.html">SeasonalWaiter</a></li><li><a href="WindowWaiter.html">WindowWaiter</a></li><li><a href="WorkerWaiter.html">WorkerWaiter</a></li>
+				</ul>
+			</li>
+			
+			<li class="dropdown">
+				<a href="events.list.html" class="dropdown-toggle" data-toggle="dropdown">Events<b class="caret"></b></a>
+				<ul class="dropdown-menu inline">
+					<li><a href="Manager.html#event:appstart">Manager#event:appstart</a></li><li><a href="Manager.html#event:apploaded">Manager#event:apploaded</a></li><li><a href="Manager.html#event:operationadd">Manager#event:operationadd</a></li><li><a href="Manager.html#event:operationremove">Manager#event:operationremove</a></li><li><a href="Manager.html#event:oplistcreate">Manager#event:oplistcreate</a></li><li><a href="Manager.html#event:statechange">Manager#event:statechange</a></li>
+				</ul>
+			</li>
+			
+			<li class="dropdown">
+				<a href="global.html" class="dropdown-toggle" data-toggle="dropdown">Global<b class="caret"></b></a>
+				<ul class="dropdown-menu inline">
+					<li><a href="global.html#bake">bake</a></li><li><a href="global.html#_asyncToGenerator">_asyncToGenerator</a></li><li><a href="global.html#loadRequiredModules">loadRequiredModules</a></li><li><a href="global.html#calculateHighlights">calculateHighlights</a></li><li><a href="global.html#Categories">Categories</a></li><li><a href="global.html#OpModules">OpModules</a></li><li><a href="global.html#OperationConfig">OperationConfig</a></li><li><a href="global.html#valExport">valExport</a></li><li><a href="global.html#main">main</a></li><li><a href="global.html#sitemap">sitemap</a></li>
+				</ul>
+			</li>
+			
+		</ul>
+        
+            <div class="col-sm-3 col-md-3">
+                <form class="navbar-form" role="search">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search" name="q" id="search-input">
+                        <div class="input-group-btn">
+                            <button class="btn btn-default" id="search-submit"><i class="glyphicon glyphicon-search"></i></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        
+	</div>
+
+</div>
+</div>
+
+
+<div class="container" id="toc-content">
+<div class="row">
+
+	
+	<div class="col-md-12">
+	
+		<div id="main">
+			
+
+		<h1 class="page-title">Source: web/OperationsWaiter.js</h1>
+    
+<section>
+    <article>
+        <pre
+            class="sunlight-highlight-javascript linenums">import HTMLOperation from "./HTMLOperation.js";
+import Sortable from "sortablejs";
+
+
+/**
+ * Waiter to handle events related to the operations.
+ *
+ * @author n1474335 [n1474335@gmail.com]
+ * @copyright Crown Copyright 2016
+ * @license Apache-2.0
+ *
+ * @constructor
+ * @param {App} app - The main view object for CyberChef.
+ * @param {Manager} manager - The CyberChef event manager.
+ */
+const OperationsWaiter = function(app, manager) {
+    this.app = app;
+    this.manager = manager;
+
+    this.options = {};
+    this.removeIntent = false;
+};
+
+
+/**
+ * Handler for search events.
+ * Finds operations which match the given search term and displays them under the search box.
+ *
+ * @param {event} e
+ */
+OperationsWaiter.prototype.searchOperations = function(e) {
+    let ops, selected;
+
+    if (e.type === "search") { // Search
+        e.preventDefault();
+        ops = document.querySelectorAll("#search-results li");
+        if (ops.length) {
+            selected = this.getSelectedOp(ops);
+            if (selected > -1) {
+                this.manager.recipe.addOperation(ops[selected].innerHTML);
+            }
+        }
+    }
+
+    if (e.keyCode === 13) { // Return
+        e.preventDefault();
+    } else if (e.keyCode === 40) { // Down
+        e.preventDefault();
+        ops = document.querySelectorAll("#search-results li");
+        if (ops.length) {
+            selected = this.getSelectedOp(ops);
+            if (selected > -1) {
+                ops[selected].classList.remove("selected-op");
+            }
+            if (selected === ops.length-1) selected = -1;
+            ops[selected+1].classList.add("selected-op");
+        }
+    } else if (e.keyCode === 38) { // Up
+        e.preventDefault();
+        ops = document.querySelectorAll("#search-results li");
+        if (ops.length) {
+            selected = this.getSelectedOp(ops);
+            if (selected > -1) {
+                ops[selected].classList.remove("selected-op");
+            }
+            if (selected === 0) selected = ops.length;
+            ops[selected-1].classList.add("selected-op");
+        }
+    } else {
+        const searchResultsEl = document.getElementById("search-results");
+        const el = e.target;
+        const str = el.value;
+
+        while (searchResultsEl.firstChild) {
+            try {
+                $(searchResultsEl.firstChild).popover("destroy");
+            } catch (err) {}
+            searchResultsEl.removeChild(searchResultsEl.firstChild);
+        }
+
+        $("#categories .in").collapse("hide");
+        if (str) {
+            const matchedOps = this.filterOperations(str, true);
+            const matchedOpsHtml = matchedOps
+                .map(v => v.toStubHtml())
+                .join("");
+
+            searchResultsEl.innerHTML = matchedOpsHtml;
+            searchResultsEl.dispatchEvent(this.manager.oplistcreate);
+        }
+    }
+};
+
+
+/**
+ * Filters operations based on the search string and returns the matching ones.
+ *
+ * @param {string} searchStr
+ * @param {boolean} highlight - Whether or not to highlight the matching string in the operation
+ *   name and description
+ * @returns {string[]}
+ */
+OperationsWaiter.prototype.filterOperations = function(inStr, highlight) {
+    const matchedOps = [];
+    const matchedDescs = [];
+
+    const searchStr = inStr.toLowerCase();
+
+    for (const opName in this.app.operations) {
+        const op = this.app.operations[opName];
+        const namePos = opName.toLowerCase().indexOf(searchStr);
+        const descPos = op.description.toLowerCase().indexOf(searchStr);
+
+        if (namePos >= 0 || descPos >= 0) {
+            const operation = new HTMLOperation(opName, this.app.operations[opName], this.app, this.manager);
+            if (highlight) {
+                operation.highlightSearchString(searchStr, namePos, descPos);
+            }
+
+            if (namePos &lt; 0) {
+                matchedOps.push(operation);
+            } else {
+                matchedDescs.push(operation);
+            }
+        }
+    }
+
+    return matchedDescs.concat(matchedOps);
+};
+
+
+/**
+ * Finds the operation which has been selected using keyboard shortcuts. This will have the class
+ * 'selected-op' set. Returns the index of the operation within the given list.
+ *
+ * @param {element[]} ops
+ * @returns {number}
+ */
+OperationsWaiter.prototype.getSelectedOp = function(ops) {
+    for (let i = 0; i &lt; ops.length; i++) {
+        if (ops[i].classList.contains("selected-op")) {
+            return i;
+        }
+    }
+    return -1;
+};
+
+
+/**
+ * Handler for oplistcreate events.
+ *
+ * @listens Manager#oplistcreate
+ * @param {event} e
+ */
+OperationsWaiter.prototype.opListCreate = function(e) {
+    this.manager.recipe.createSortableSeedList(e.target);
+    this.enableOpsListPopovers(e.target);
+};
+
+
+/**
+ * Sets up popovers, allowing the popover itself to gain focus which enables scrolling
+ * and other interactions.
+ *
+ * @param {Element} el - The element to start selecting from
+ */
+OperationsWaiter.prototype.enableOpsListPopovers = function(el) {
+    $(el).find("[data-toggle=popover]").addBack("[data-toggle=popover]")
+        .popover({trigger: "manual"})
+        .on("mouseenter", function(e) {
+            if (e.buttons > 0) return; // Mouse button held down - likely dragging an opertion
+            const _this = this;
+            $(this).popover("show");
+            $(".popover").on("mouseleave", function () {
+                $(_this).popover("hide");
+            });
+        }).on("mouseleave", function () {
+            const _this = this;
+            setTimeout(function() {
+                // Determine if the popover associated with this element is being hovered over
+                if ($(_this).data("bs.popover") &amp;&amp;
+                    ($(_this).data("bs.popover").$tip &amp;&amp; !$(_this).data("bs.popover").$tip.is(":hover"))) {
+                    $(_this).popover("hide");
+                }
+            }, 50);
+        });
+};
+
+
+/**
+ * Handler for operation doubleclick events.
+ * Adds the operation to the recipe and auto bakes.
+ *
+ * @param {event} e
+ */
+OperationsWaiter.prototype.operationDblclick = function(e) {
+    const li = e.target;
+
+    this.manager.recipe.addOperation(li.textContent);
+};
+
+
+/**
+ * Handler for edit favourites click events.
+ * Sets up the 'Edit favourites' pane and displays it.
+ *
+ * @param {event} e
+ */
+OperationsWaiter.prototype.editFavouritesClick = function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    // Add favourites to modal
+    const favCat = this.app.categories.filter(function(c) {
+        return c.name === "Favourites";
+    })[0];
+
+    let html = "";
+    for (let i = 0; i &lt; favCat.ops.length; i++) {
+        const opName = favCat.ops[i];
+        const operation = new HTMLOperation(opName, this.app.operations[opName], this.app, this.manager);
+        html += operation.toStubHtml(true);
+    }
+
+    const editFavouritesList = document.getElementById("edit-favourites-list");
+    editFavouritesList.innerHTML = html;
+    this.removeIntent = false;
+
+    const editableList = Sortable.create(editFavouritesList, {
+        filter: ".remove-icon",
+        onFilter: function (evt) {
+            const el = editableList.closest(evt.item);
+            if (el &amp;&amp; el.parentNode) {
+                $(el).popover("destroy");
+                el.parentNode.removeChild(el);
+            }
+        },
+        onEnd: function(evt) {
+            if (this.removeIntent) {
+                $(evt.item).popover("destroy");
+                evt.item.remove();
+            }
+        }.bind(this),
+    });
+
+    Sortable.utils.on(editFavouritesList, "dragleave", function() {
+        this.removeIntent = true;
+    }.bind(this));
+
+    Sortable.utils.on(editFavouritesList, "dragover", function() {
+        this.removeIntent = false;
+    }.bind(this));
+
+    $("#edit-favourites-list [data-toggle=popover]").popover();
+    $("#favourites-modal").modal();
+};
+
+
+/**
+ * Handler for save favourites click events.
+ * Saves the selected favourites and reloads them.
+ */
+OperationsWaiter.prototype.saveFavouritesClick = function() {
+    const favs = document.querySelectorAll("#edit-favourites-list li");
+    const favouritesList = Array.from(favs, e => e.textContent);
+
+    this.app.saveFavourites(favouritesList);
+    this.app.loadFavourites();
+    this.app.populateOperationsList();
+    this.manager.recipe.initialiseOperationDragNDrop();
+};
+
+
+/**
+ * Handler for reset favourites click events.
+ * Resets favourites to their defaults.
+ */
+OperationsWaiter.prototype.resetFavouritesClick = function() {
+    this.app.resetFavourites();
+};
+
+
+/**
+ * Handler for opIcon mouseover events.
+ * Hides any popovers already showing on the operation so that there aren't two at once.
+ *
+ * @param {event} e
+ */
+OperationsWaiter.prototype.opIconMouseover = function(e) {
+    const opEl = e.target.parentNode;
+    if (e.target.getAttribute("data-toggle") === "popover") {
+        $(opEl).popover("hide");
+    }
+};
+
+
+/**
+ * Handler for opIcon mouseleave events.
+ * If this icon created a popover and we're moving back to the operation element, display the
+ *   operation popover again.
+ *
+ * @param {event} e
+ */
+OperationsWaiter.prototype.opIconMouseleave = function(e) {
+    const opEl = e.target.parentNode;
+    const toEl = e.toElement || e.relatedElement;
+
+    if (e.target.getAttribute("data-toggle") === "popover" &amp;&amp; toEl === opEl) {
+        $(opEl).popover("show");
+    }
+};
+
+export default OperationsWaiter;
+</pre>
+    </article>
+</section>
+
+
+
+
+
+		</div>
+	</div>
+
+	<div class="clearfix"></div>
+
+	
+
+</div>
+</div>
+
+
+    <div class="modal fade" id="searchResults">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Search results</h4>
+          </div>
+          <div class="modal-body"></div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div>
+
+
+<footer>
+
+
+	<span class="copyright">
+	&copy; Crown Copyright 2017
+	</span>
+
+<span class="jsdoc-message">
+	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a>
+	
+		on Sun Mar 4th 2018
+	
+	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
+</span>
+</footer>
+
+<script src="scripts/docstrap.lib.js"></script>
+<script src="scripts/toc.js"></script>
+
+    <script type="text/javascript" src="scripts/fulltext-search-ui.js"></script>
+
+
+<script>
+$( function () {
+	$( "[id*='$']" ).each( function () {
+		var $this = $( this );
+
+		$this.attr( "id", $this.attr( "id" ).replace( "$", "__" ) );
+	} );
+
+	$( ".tutorial-section pre, .readme-section pre, pre.prettyprint.source" ).each( function () {
+		var $this = $( this );
+
+		var example = $this.find( "code" );
+		exampleText = example.html();
+		var lang = /{@lang (.*?)}/.exec( exampleText );
+		if ( lang && lang[1] ) {
+			exampleText = exampleText.replace( lang[0], "" );
+			example.html( exampleText );
+			lang = lang[1];
+		} else {
+			var langClassMatch = example.parent()[0].className.match(/lang\-(\S+)/);
+			lang = langClassMatch ? langClassMatch[1] : "javascript";
+		}
+
+		if ( lang ) {
+
+			$this
+			.addClass( "sunlight-highlight-" + lang )
+			.addClass( "linenums" )
+			.html( example.html() );
+
+		}
+	} );
+
+	Sunlight.highlightAll( {
+		lineNumbers : true,
+		showMenu : true,
+		enableDoclinks : true
+	} );
+
+	$.catchAnchorLinks( {
+        navbarOffset: 10
+	} );
+	$( "#toc" ).toc( {
+		anchorName  : function ( i, heading, prefix ) {
+			return $( heading ).attr( "id" ) || ( prefix + i );
+		},
+		selectors   : "#toc-content h1,#toc-content h2,#toc-content h3,#toc-content h4",
+		showAndHide : false,
+		smoothScrolling: true
+	} );
+
+	$( "#main span[id^='toc']" ).addClass( "toc-shim" );
+	$( '.dropdown-toggle' ).dropdown();
+
+    $( "table" ).each( function () {
+      var $this = $( this );
+      $this.addClass('table');
+    } );
+
+} );
+</script>
+
+
+
+<!--Navigation and Symbol Display-->
+
+
+<!--Google Analytics-->
+
+
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            SearcherDisplay.init();
+        });
+    </script>
+
+
+</body>
+</html>
