@@ -786,7 +786,7 @@ jmPGsv1elXxVzqs58UZLD2c3vBhGkU2BV6kRKh+lj/EcVrzsFhGCz/7DKxPoDHLS
 
     it("Remove EXIF", () => {
         const result = chef.removeEXIF(fs.readFileSync("test/tests/nodeApi/sampleData/pic.jpg"));
-        assert.strictEqual(result.toString().length(), 4582);
+        assert.strictEqual(result.toString().length, 4582);
     }),
 
     it("Scan for embedded files", () => {
