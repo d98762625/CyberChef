@@ -38,7 +38,7 @@ import TestRegister from "../../lib/TestRegister";
 
 TestRegister.addApiTests([
 
-    it("ADD: toggleString argument", () => {
+    it("ADD: toggleString argument", async () => {
         const result = chef.ADD("sample input", {
             key: {
                 string: "some key",
@@ -49,24 +49,24 @@ TestRegister.addApiTests([
     }),
 
 
-    it("ADD: default option toggleString argument", () => {
+    it("ADD: default option toggleString argument", async () => {
         const result = chef.ADD(3, {
             key: "4",
         });
         assert.strictEqual(result.toString(), "7");
     }),
 
-    it("addLineNumbers: No arguments", () => {
+    it("addLineNumbers: No arguments", async () => {
         const result = addLineNumbers("sample input");
         assert.equal(result.toString(), "1 sample input");
     }),
 
-    it("adler32Checksum: No args", () => {
+    it("adler32Checksum: No args", async () => {
         const result = adler32Checksum("sample input");
         assert.equal(result.toString(), "1f2304d3");
     }),
 
-    it("AES decrypt: toggleString and option", () => {
+    it("AES decrypt: toggleString and option", async () => {
         const result = AESDecrypt("812c34ae6af353244a63c6ce23b7c34286b60be28ea4645523d4494700e7", {
             key: {
                 string: "some longer key1",
@@ -81,7 +81,7 @@ TestRegister.addApiTests([
         assert.equal(result.toString(), "a slightly longer sampleinput?");
     }),
 
-    it("AffineCipherDecode: number input", () => {
+    it("AffineCipherDecode: number input", async () => {
         const result = affineCipherDecode("some input", {
             a: 7,
             b: 4
@@ -89,7 +89,7 @@ TestRegister.addApiTests([
         assert.strictEqual(result.toString(), "cuqa ifjgr");
     }),
 
-    it("affineCipherEncode: number input", () => {
+    it("affineCipherEncode: number input", async () => {
         const result = affineCipherEncode("some input", {
             a: 11,
             b: 6
@@ -97,7 +97,7 @@ TestRegister.addApiTests([
         assert.strictEqual(result.toString(), "weiy qtpsh");
     }),
 
-    it("analyzeHash", () => {
+    it("analyzeHash", async () => {
         const result = chef.analyseHash(chef.MD5("some input"));
         const expected = `Hash length: 32
 Byte length: 16
@@ -114,7 +114,7 @@ Tiger-128`;
         assert.strictEqual(result.toString(), expected);
     }),
 
-    it("AND", () => {
+    it("AND", async () => {
         const result = chef.AND("Scot-free", {
             key: {
                 string: "Raining Cats and Dogs",
@@ -124,7 +124,7 @@ Tiger-128`;
         assert.strictEqual(result.toString(), "\u0000\"M$(D  E");
     }),
 
-    it("atBash Cipher", () => {
+    it("atBash Cipher", async () => {
         const result = chef.atbashCipher("Happy as a Clam");
         assert.strictEqual(result.toString(), "Szkkb zh z Xozn");
     }),
@@ -150,26 +150,26 @@ Full hash: $2a$10$ODeP1.6fMsb.ENk2ngPUCO7qTGVPyHA9TqDVcyupyed8FjsiF65L6`;
         assert.strictEqual(result.toString(), expected);
     }),
 
-    it("bifid cipher decode", () => {
+    it("bifid cipher decode", async () => {
         const result = chef.bifidCipherDecode("Vhef Qnte Ke Xfhz Mxon Bmgf", {
             keyword: "Alpha",
         });
         assert.strictEqual(result.toString(), "What Goes Up Must Come Down");
     }),
 
-    it("bifid cipher encode: string option", () => {
+    it("bifid cipher encode: string option", async () => {
         const result = bifidCipherEncode("some input", {
             keyword: "mykeyword",
         });
         assert.strictEqual(result.toString(), "nmhs zmsdo");
     }),
 
-    it("bit shift left", () => {
+    it("bit shift left", async () => {
         const result = chef.bitShiftLeft("Keep Your Eyes Peeled");
         assert.strictEqual(result.toString(), "ÊÊà@²Þêä@òÊæ@ ÊÊØÊÈ");
     }),
 
-    it("bitShiftRight: number and option", () => {
+    it("bitShiftRight: number and option", async () => {
         const result = bitShiftRight("some bits to shift", {
             type: "Arithmetic shift",
             amount: 1,
@@ -177,7 +177,7 @@ Full hash: $2a$10$ODeP1.6fMsb.ENk2ngPUCO7qTGVPyHA9TqDVcyupyed8FjsiF65L6`;
         assert.strictEqual(result.toString(), "9762\u001014:9\u0010:7\u00109443:");
     }),
 
-    it("Blowfish encrypt", () => {
+    it("Blowfish encrypt", async () => {
         const result = chef.blowfishEncrypt("Fool's Gold", {
             key: {
                 string: "One",
@@ -191,7 +191,7 @@ Full hash: $2a$10$ODeP1.6fMsb.ENk2ngPUCO7qTGVPyHA9TqDVcyupyed8FjsiF65L6`;
         assert.strictEqual(result.toString(), "8999b513bf2ff064b2977dea7e05f1b5");
     }),
 
-    it("Blowfish decrypt", () => {
+    it("Blowfish decrypt", async () => {
         const result = chef.blowfishDecrypt("8999b513bf2ff064b2977dea7e05f1b5", {
             key: {
                 string: "One",
@@ -205,26 +205,26 @@ Full hash: $2a$10$ODeP1.6fMsb.ENk2ngPUCO7qTGVPyHA9TqDVcyupyed8FjsiF65L6`;
         assert.strictEqual(result.toString(), "Fool's Gold");
     }),
 
-    it("BSON Serialise / Deserialise", () => {
+    it("BSON Serialise / Deserialise", async () => {
         const result = chef.BSONDeserialise(chef.BSONSerialise("{\"phrase\": \"Mouth-watering\"}"));
         assert.strictEqual(result.toString(), `{
   "phrase": "Mouth-watering"
 }`);
     }),
 
-    it("Bzip2 Decompress", () => {
+    it("Bzip2 Decompress", async () => {
         const result = chef.bzip2Decompress(chef.fromBase64("QlpoOTFBWSZTWUdQlt0AAAIVgEAAAQAmJAwAIAAxBkxA0A2pTL6U2CozxdyRThQkEdQlt0A="));
         assert.strictEqual(result.toString(), "Fit as a Fiddle");
     }),
 
-    it("cartesianProduct: binary string", () => {
+    it("cartesianProduct: binary string", async () => {
         const result = cartesianProduct("1:2\\n\\n3:4", {
             itemDelimiter: ":",
         });
         assert.strictEqual(result.toString(), "(1,3):(1,4):(2,3):(2,4)");
     }),
 
-    it("Change IP format", () => {
+    it("Change IP format", async () => {
         const result = chef.changeIPFormat("172.20.23.54", {
             inputFormat: "Dotted Decimal",
             outputFormat: "Hex",
@@ -232,22 +232,22 @@ Full hash: $2a$10$ODeP1.6fMsb.ENk2ngPUCO7qTGVPyHA9TqDVcyupyed8FjsiF65L6`;
         assert.strictEqual(result.toString(), "ac141736");
     }),
 
-    it("Chi square", () => {
+    it("Chi square", async () => {
         const result = chef.chiSquare("Burst Your Bubble");
         assert.strictEqual(result.toString(), "433.55399816176475");
     }),
 
-    it("Compare CTPH Hashes", () => {
+    it("Compare CTPH Hashes", async () => {
         const result = chef.compareCTPHHashes("1234\n3456");
         assert.strictEqual(result.toString(), "0");
     }),
 
-    it("Compare SSDEEPHashes", () => {
+    it("Compare SSDEEPHashes", async () => {
         const result = chef.compareCTPHHashes("1234\n3456");
         assert.strictEqual(result.toString(), "0");
     }),
 
-    it("Convert area", () => {
+    it("Convert area", async () => {
         const result = chef.convertArea("12345", {
             inputUnits: "Square metre (sq m)",
             outputUnits: "Isle of Wight"
@@ -255,7 +255,7 @@ Full hash: $2a$10$ODeP1.6fMsb.ENk2ngPUCO7qTGVPyHA9TqDVcyupyed8FjsiF65L6`;
         assert.strictEqual(result.toString(), "0.00003248684210526316");
     }),
 
-    it("Convert data units", () => {
+    it("Convert data units", async () => {
         const result = chef.convertDataUnits("12345", {
             inputUnits: "Bits (b)",
             outputUnits: "Kilobytes (KB)",
@@ -263,7 +263,7 @@ Full hash: $2a$10$ODeP1.6fMsb.ENk2ngPUCO7qTGVPyHA9TqDVcyupyed8FjsiF65L6`;
         assert.strictEqual(result.toString(), "1.543125");
     }),
 
-    it("Convert distance", () => {
+    it("Convert distance", async () => {
         const result = chef.convertDistance("1234567", {
             inputUnits: "Nanometres (nm)",
             outputUnits: "Furlongs (fur)",
@@ -271,7 +271,7 @@ Full hash: $2a$10$ODeP1.6fMsb.ENk2ngPUCO7qTGVPyHA9TqDVcyupyed8FjsiF65L6`;
         assert.strictEqual(result.toString(), "0.00000613699494949495");
     }),
 
-    it("Convert mass", () => {
+    it("Convert mass", async () => {
         const result = chef.convertMass("123", {
             inputUnits: "Earth mass (M⊕)",
             outputUnits: "Great Pyramid of Giza (6,000,000 tonnes)",
@@ -279,7 +279,7 @@ Full hash: $2a$10$ODeP1.6fMsb.ENk2ngPUCO7qTGVPyHA9TqDVcyupyed8FjsiF65L6`;
         assert.strictEqual(result.toString(), "122429895000000000");
     }),
 
-    it("Convert speed", () => {
+    it("Convert speed", async () => {
         const result = chef.convertSpeed("123", {
             inputUnits: "Lunar escape velocity",
             outputUnits: "Jet airliner cruising speed",
@@ -287,7 +287,7 @@ Full hash: $2a$10$ODeP1.6fMsb.ENk2ngPUCO7qTGVPyHA9TqDVcyupyed8FjsiF65L6`;
         assert.strictEqual(result.toString(), "1168.5");
     }),
 
-    it("Count occurrences", () => {
+    it("Count occurrences", async () => {
         const result = chef.countOccurrences("Talk the Talk", {
             searchString: {
                 string: "Tal",
@@ -297,17 +297,17 @@ Full hash: $2a$10$ODeP1.6fMsb.ENk2ngPUCO7qTGVPyHA9TqDVcyupyed8FjsiF65L6`;
         assert.strictEqual(result.toString(), "2");
     }),
 
-    it("CRC16 Checksum", () => {
+    it("CRC16 Checksum", async () => {
         const result = chef.CRC16Checksum("Rain on Your Parade");
         assert.strictEqual(result.toString(), "db1c");
     }),
 
-    it("CRC32 Checksum", () => {
+    it("CRC32 Checksum", async () => {
         const result = chef.CRC32Checksum("Rain on Your Parade");
         assert.strictEqual(result.toString(), "e902f76c");
     }),
 
-    it("CSS Beautify", () => {
+    it("CSS Beautify", async () => {
         const result = chef.CSSBeautify("header {color:black;padding:3rem;}");
         const expected = `header {
 \\tcolor:black;
@@ -317,7 +317,7 @@ Full hash: $2a$10$ODeP1.6fMsb.ENk2ngPUCO7qTGVPyHA9TqDVcyupyed8FjsiF65L6`;
         assert.strictEqual(result.toString(), expected);
     }),
 
-    it("CSS minify: boolean", () => {
+    it("CSS minify: boolean", async () => {
         const input = `header {
 // comment
 width: 100%;
@@ -329,23 +329,23 @@ color: white;
         assert.strictEqual(result.toString(), "header {// comment width: 100%;color: white;}");
     }),
 
-    it("CSS Selector", () => {
+    it("CSS Selector", async () => {
         const result = chef.CSSSelector("<html><header><h1>Hello</h1></header></html>", {
             cssSelector: "h1",
         });
         assert.strictEqual(result.toString(), "<h1>Hello</h1>");
     }),
 
-    it("CTPH", () => {
+    it("CTPH", async () => {
         const result = chef.CTPH("If You Can't Stand the Heat, Get Out of the Kitchen");
         assert.strictEqual(result.toString(), "A:+EgFgBKAA0V0UFfClEs6:+Qk0gUFse");
     }),
 
-    it("Decode NetBIOS Name", () => {
+    it("Decode NetBIOS Name", async () => {
         assert.strictEqual(chef.decodeNetBIOSName("EBGMGMCAEHHCGFGFGLCAFEGPCAENGFCA").toString(), "All Greek To Me");
     }),
 
-    it("Decode text", () => {
+    it("Decode text", async () => {
         const encoded = chef.encodeText("Ugly Duckling", {
             encoding: "UTF16LE (1200)",
         });
@@ -355,7 +355,7 @@ color: white;
         assert.strictEqual(result.toString(), "Ugly Duckling");
     }),
 
-    it("Derive EVP Key", () => {
+    it("Derive EVP Key", async () => {
         const result = chef.deriveEVPKey("", {
             passphrase: {
                 string: "46 6c 65 61 20 4d 61 72 6b 65 74",
@@ -369,7 +369,7 @@ color: white;
         assert.strictEqual(result.toString(), "7c21a9f5063a4d62fb1050068245c181");
     }),
 
-    it("Derive PBKDF2 Key", () => {
+    it("Derive PBKDF2 Key", async () => {
         const result = chef.derivePBKDF2Key("", {
             passphrase: {
                 string: "Jack of All Trades Master of None",
@@ -386,7 +386,7 @@ color: white;
         assert.strictEqual(result.toString(), "728a885b209e8b19cbd7430ca32608ff09190f7ccb7ded204e1d4c50f87c47bf");
     }),
 
-    it("DES Decrypt", () => {
+    it("DES Decrypt", async () => {
         const result = chef.DESDecrypt("713081c66db781c323965ba8f166fd8c230c3bb48504a913", {
             key: {
                 string: "onetwoth",
@@ -401,7 +401,7 @@ color: white;
         assert.strictEqual(result.toString(), "Put a Sock In It");
     }),
 
-    it("DES Encrypt", () => {
+    it("DES Encrypt", async () => {
         const result = chef.DESEncrypt("Put a Sock In It", {
             key: {
                 string: "onetwoth",
@@ -416,12 +416,12 @@ color: white;
         assert.strictEqual(result.toString(), "713081c66db781c323965ba8f166fd8c230c3bb48504a913");
     }),
 
-    it("Diff", () => {
+    it("Diff", async () => {
         const result = chef.diff("one two\\n\\none two three");
         assert.strictEqual(result.toString(), "one two three");
     }),
 
-    it("Disassemble x86", () => {
+    it("Disassemble x86", async () => {
         const result = chef.disassembleX86(chef.toBase64("one two three"));
         const expected = `0000000000000000 0000                            ADD BYTE PTR [RAX],AL\r
 0000000000000002 0B250000000B                    OR ESP,DWORD PTR [000000000B000008]\r
@@ -429,20 +429,20 @@ color: white;
         assert.strictEqual(result.toString(), expected);
     }),
 
-    it("Divide", () => {
+    it("Divide", async () => {
         assert.strictEqual(chef.divide("4\n7").toString(), "0.57142857142857142857");
     }),
 
-    it("Drop bytes", () => {
+    it("Drop bytes", async () => {
         assert.strictEqual(chef.dropBytes("There's No I in Team").toString(), "'s No I in Team");
     }),
 
-    it("Entropy", () => {
+    it("Entropy", async () => {
         const result = chef.entropy("Ride Him, Cowboy!");
         assert.strictEqual(result.toString(), "3.734521664779752");
     }),
 
-    it("Escape string", () => {
+    it("Escape string", async () => {
         const result = chef.escapeString("Know the Ropes", {
             escapeLevel: "Everything",
             JSONCompatible: false,
@@ -452,21 +452,21 @@ color: white;
         assert.strictEqual(result.toString(), "\\x4B\\x6E\\x6F\\x77\\x20\\x74\\x68\\x65\\x20\\x52\\x6F\\x70\\x65\\x73");
     }),
 
-    it("Escape unicode characters", () => {
+    it("Escape unicode characters", async () => {
         assert.strictEqual(chef.escapeUnicodeCharacters("σου").toString(), "\\u03C3\\u03BF\\u03C5");
     }),
 
-    it("Expand alphabet range", () => {
+    it("Expand alphabet range", async () => {
         assert.strictEqual(
             chef.expandAlphabetRange("Fight Fire With Fire", {delimiter: "t"}).toString(),
             "Ftitgthttt tFtitrtet tWtitttht tFtitrte");
     }),
 
-    it("Extract dates", () => {
+    it("Extract dates", async () => {
         assert.strictEqual(chef.extractDates("Don't Look a Gift Horse In The Mouth 01/02/1992").toString(), "01/02/1992\n");
     }),
 
-    it("Filter", () => {
+    it("Filter", async () => {
         const result = chef.filter(
             `I Smell a Rat
 Every Cloud Has a Silver Lining
@@ -477,7 +477,7 @@ Top Drawer`, {
         assert.strictEqual(result.toString(), expected);
     }),
 
-    it("Find / Replace", () => {
+    it("Find / Replace", async () => {
         assert.strictEqual(
             chef.findReplace(
                 "Curiosity Killed The Cat",
@@ -491,11 +491,11 @@ Top Drawer`, {
             "Curiosity Kissed The Cat");
     }),
 
-    it("Fletcher8 Checksum", () => {
+    it("Fletcher8 Checksum", async () => {
         assert.strictEqual(chef.fletcher8Checksum("Keep Your Eyes Peeled").toString(), "48");
     }),
 
-    it("Format MAC addresses", () => {
+    it("Format MAC addresses", async () => {
         const result = chef.formatMACAddresses("00-01-02-03-04-05");
         const expected = `000102030405
 000102030405
@@ -507,65 +507,65 @@ Top Drawer`, {
         assert.strictEqual(result.toString(), expected);
     }),
 
-    it("Frequency distribution", () => {
+    it("Frequency distribution", async () => {
         const result = chef.frequencyDistribution("Don't Count Your Chickens Before They Hatch");
         const expected = "{\"dataLength\":43,\"percentages\":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,13.953488372093023,0,0,0,0,0,0,2.3255813953488373,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2.3255813953488373,4.651162790697675,2.3255813953488373,0,0,0,2.3255813953488373,0,0,0,0,0,0,0,0,0,0,0,2.3255813953488373,0,0,0,0,2.3255813953488373,0,0,0,0,0,0,0,2.3255813953488373,0,4.651162790697675,0,9.30232558139535,2.3255813953488373,0,6.976744186046512,2.3255813953488373,0,2.3255813953488373,0,0,6.976744186046512,9.30232558139535,0,0,4.651162790697675,2.3255813953488373,6.976744186046512,4.651162790697675,0,0,0,2.3255813953488373,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\"distribution\":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,2,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,1,0,2,0,4,1,0,3,1,0,1,0,0,3,4,0,0,2,1,3,2,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\"bytesRepresented\":22}";
         assert.strictEqual(result.toString(), expected);
     }),
 
-    it("From base", () => {
+    it("From base", async () => {
         assert.strictEqual(chef.fromBase("11", {radix: 13}).toString(), "14");
     }),
 
-    it("From BCD", () => {
+    it("From BCD", async () => {
         assert.strictEqual(chef.fromBCD("1143", { inputFormat: "Raw", scheme: "7 4 2 1"}).toString(), "31313433");
     }),
 
-    it("From binary", () => {
+    it("From binary", async () => {
         assert.strictEqual(chef.fromBinary("010101011100101101011010").toString(), "UËZ");
     }),
 
-    it("From Charcode", () => {
+    it("From Charcode", async () => {
         assert.strictEqual(chef.fromCharcode("4c 6f 6e 67 20 49 6e 20 54 68 65 20 54 6f 6f 74 68 0a").toString(), "Long In The Tooth\n");
     }),
 
-    it("From decimal", () => {
+    it("From decimal", async () => {
         assert.strictEqual(chef.fromDecimal("72 101 108 108 111").toString(), "Hello");
     }),
 
-    it("From hex", () => {
+    it("From hex", async () => {
         assert.strictEqual(chef.fromHex("52 69 6e 67 20 41 6e 79 20 42 65 6c 6c 73 3f").toString(), "Ring Any Bells?");
     }),
 
-    it("From hex content", () => {
+    it("From hex content", async () => {
         assert.strictEqual(chef.fromHexContent("foo|3d|bar").toString(), "foo=bar");
     }),
 
-    it("To and From hex dump", () => {
+    it("To and From hex dump", async () => {
         assert.strictEqual(chef.fromHexdump(chef.toHexdump("Elephant in the Room")).toString(), "Elephant in the Room");
     }),
 
-    it("From HTML entity", () => {
+    it("From HTML entity", async () => {
         assert.strictEqual(chef.fromHTMLEntity("&amp;").toString(), "&");
     }),
 
-    it("To and From morse code", () => {
+    it("To and From morse code", async () => {
         assert.strictEqual(chef.fromMorseCode(chef.toMorseCode("Put a Sock In It")).toString(), "PUT A SOCK IN IT");
     }),
 
-    it("From octal", () => {
+    it("From octal", async () => {
         assert.strictEqual(chef.fromOctal("113 156 157 167 40 164 150 145 40 122 157 160 145 163").toString(), "Know the Ropes");
     }),
 
-    it("To, From punycode", () => {
+    it("To, From punycode", async () => {
         assert.strictEqual(chef.fromPunycode(chef.toPunycode("münchen")).toString(), "münchen");
     }),
 
-    it("From unix timestamp", () => {
+    it("From unix timestamp", async () => {
         assert.strictEqual(chef.fromUNIXTimestamp("978346800").toString(), "Mon 1 January 2001 11:00:00 UTC");
     }),
 
-    it("Generate HOTP", () => {
+    it("Generate HOTP", async () => {
         const result = chef.generateHOTP("Cut The Mustard", {
             name: "colonel",
         });
@@ -622,23 +622,23 @@ Rn843Py09ptDHh+xpGKh
         assert.strictEqual(result.toString(), expected);
     }),
 
-    it("Generate UUID", () => {
+    it("Generate UUID", async () => {
         const result = chef.generateUUID();
         assert.ok(result.toString());
         assert.strictEqual(result.toString().length, 36);
     }),
 
-    it("Gzip, Gunzip", () => {
+    it("Gzip, Gunzip", async () => {
         assert.strictEqual(chef.gunzip(chef.gzip("Down To The Wire")).toString(), "Down To The Wire");
     }),
 
-    it("Hex to Object Identifier", () => {
+    it("Hex to Object Identifier", async () => {
         assert.strictEqual(
             chef.hexToObjectIdentifier(chef.toHex("You Can't Teach an Old Dog New Tricks")).toString(),
             "2.9.111.117.32.67.97.110.39.116.32.84.101.97.99.104.32.97.110.32.79.108.100.32.68.111.103.32.78.101.119.32.84.114.105.99.107.115");
     }),
 
-    it("Hex to PEM", () => {
+    it("Hex to PEM", async () => {
         const result = chef.hexToPEM(chef.toHex("Yada Yada"));
         const expected = `-----BEGIN CERTIFICATE-----\r
 WWFkYSBZYWRh\r
@@ -646,15 +646,15 @@ WWFkYSBZYWRh\r
         assert.strictEqual(result.toString(), expected);
     }),
 
-    it("HMAC", () => {
+    it("HMAC", async () => {
         assert.strictEqual(chef.HMAC("On Cloud Nine", {key: "idea"}).toString(), "e15c268b4ee755c9e52db094ed50add7");
     }),
 
-    it("JPathExpression", () => {
+    it("JPathExpression", async () => {
         assert.strictEqual(chef.JPathExpression("{\"key\" : \"value\"}", {query: "$.key"}).toString(), "\"value\"");
     }),
 
-    it("JSON Beautify", () => {
+    it("JSON Beautify", async () => {
         assert.strictEqual(
             chef.JSONBeautify("{\"key\" : \"value\"}").toString(),
             `{
@@ -662,19 +662,19 @@ WWFkYSBZYWRh\r
 }`);
     }),
 
-    it("Keccak", () => {
+    it("Keccak", async () => {
         assert.strictEqual(chef.keccak("Flea Market").toString(), "c2a06880b19e453ee5440e8bd4c2024bedc15a6630096aa3f609acfd2b8f15f27cd293e1cc73933e81432269129ce954a6138889ce87831179d55dcff1cc7587");
     }),
 
-    it("MD6", () => {
+    it("MD6", async () => {
         assert.strictEqual(chef.MD6("Head Over Heels", {key: "arty"}).toString(), "d8f7fe4931fbaa37316f76283d5f615f50ddd54afdc794b61da522556aee99ad");
     }),
 
-    it("Parse ASN.1 Hex string", () => {
+    it("Parse ASN.1 Hex string", async () => {
         assert.strictEqual(chef.parseASN1HexString(chef.toHex("Mouth-watering")).toString(), "UNKNOWN(4d) 7574682d7761746572696e67\n");
     }),
 
-    it("Parse DateTime", () => {
+    it("Parse DateTime", async () => {
         const result = chef.parseDateTime("06/07/2001 01:59:30");
         const expected = `Date: Friday 6th July 2001
 Time: 01:59:30
@@ -692,7 +692,7 @@ Quarter: 3`;
         assert.strictEqual(result.toString(), expected);
     }),
 
-    it("Parse IPV6 address", () => {
+    it("Parse IPV6 address", async () => {
         const result = chef.parseIPv6Address("2001:0db8:85a3:0000:0000:8a2e:0370:7334");
         const expected = `Longhand:  2001:0db8:85a3:0000:0000:8a2e:0370:7334
 Shorthand: 2001:db8:85a3::8a2e:370:7334
@@ -702,7 +702,7 @@ Documentation range: 2001:db8::/32`;
         assert.strictEqual(result.toString(), expected);
     }),
 
-    it("Parse URI", () => {
+    it("Parse URI", async () => {
         const result = chef.parseURI("https://www.google.co.uk/search?q=almonds");
         const expected = `Protocol:	https:
 Hostname:	www.google.co.uk
@@ -713,7 +713,7 @@ Arguments:
         assert.strictEqual(result.toString(), expected);
     }),
 
-    it("Parse user agent", () => {
+    it("Parse user agent", async () => {
         const result = chef.parseUserAgent("Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0) Gecko/20100101 Firefox/47.0 ");
         const expected = `Browser
     Name: Mozilla
@@ -772,62 +772,62 @@ jmPGsv1elXxVzqs58UZLD2c3vBhGkU2BV6kRKh+lj/EcVrzsFhGCz/7DKxPoDHLS
         assert.strictEqual(result.toString(), expected);
     }),
 
-    it("Raw deflate", () => {
+    it("Raw deflate", async () => {
         assert.strictEqual(chef.rawInflate(chef.rawDeflate("Like Father Like Son", { compressionType: "Fixed Huffman Coding"})).toString(), "Like Father Like Son");
     }),
 
-    it("RC4", () => {
+    it("RC4", async () => {
         assert.strictEqual(
             chef.RC4("Go Out On a Limb", {passphrase: {string: "Under Your Nose", option: "UTF8"}, inputFormat: "UTF8", outputFormat: "Hex"}).toString(),
             "7d17e60d9bc94b7f4095851c729e69a2");
     }),
 
-    it("RC4 Drop", () => {
+    it("RC4 Drop", async () => {
         assert.strictEqual(
             chef.RC4Drop("Go Out On a Limb", {passphrase: {string: "Under Your Nose", option: "UTF8"}, inputFormat: "UTF8", outputFormat: "Hex"}).toString(),
             "8fa5f2751d34476a0c857439f43816cf");
     }),
 
-    it("Regular Expression", () => {
+    it("Regular Expression", async () => {
         assert.strictEqual(chef.regularExpression("Wouldn't Harm a Fly", {regex: "\\'[a-z]"}).toString(), "Wouldn't Harm a Fly");
     }),
 
-    it("Remove EXIF", () => {
+    it("Remove EXIF", async () => {
         const result = chef.removeEXIF(fs.readFileSync("tests/node/sampleData/pic.jpg"));
         assert.strictEqual(result.toString().length, 4582);
     }),
 
-    it("Scan for embedded files", () => {
+    it("Scan for embedded files", async () => {
         const result = chef.scanForEmbeddedFiles(fs.readFileSync("src/web/static/images/cook_male-32x32.png"));
         const expected = "Scanning data for 'magic bytes' which may indicate embedded files.";
         assert.ok(result.toString().indexOf(expected) === 0);
     }),
 
-    it("Scrypt", () => {
+    it("Scrypt", async () => {
         assert.strictEqual(
             chef.scrypt("Playing For Keeps", {salt: {string: "salty", option: "Hex"}}).toString(),
             "5446b6d86d88515894a163201765bceed0bc39610b1506cdc4d939ffc638bc46e051bce756e2865165d89d955a43a7eb5504502567dea8bfc9e7d49aaa894c07");
     }),
 
-    it("SHA3", () => {
+    it("SHA3", async () => {
         assert.strictEqual(
             chef.SHA3("benign gravel").toString(),
             "2b1e36e0dbe151a89887be08da3bad141908cce62327f678161bcf058627e87abe57e3c5fce6581678714e6705a207acbd5c1f37f7a812280bc2cc558f00bed9");
     }),
 
-    it("Shake", () => {
+    it("Shake", async () => {
         assert.strictEqual(
             chef.shake("murderous bloodshed").toString(),
             "b79b3bb88099330bc6a15122f8dfaededf57a33b51c748d5a94e8122ff18d21e12f83412926b7e4a77a85ba6f36aa4841685e78296036337175e40096b5ac000");
     }),
 
-    it("Snefru", () => {
+    it("Snefru", async () => {
         assert.strictEqual(
             chef.snefru("demeaning milestone").toString(),
             "a671b48770fe073ce49e9259cc2f47d345a53712639f8ae23c5ad3fec19540a5");
     }),
 
-    it("SQL Beautify", () => {
+    it("SQL Beautify", async () => {
         const result = chef.SQLBeautify(`SELECT MONTH, ID, RAIN_I, TEMP_F 
 FROM STATS;`);
         const expected = `SELECT MONTH,
@@ -838,13 +838,13 @@ FROM STATS;`;
         assert.strictEqual(result.toString(), expected);
     }),
 
-    it("SSDEEP", () => {
+    it("SSDEEP", async () => {
         assert.strictEqual(
             chef.SSDEEP("shotgun tyranny snugly").toString(),
             "3:DLIXzMQCJc:XERKc");
     }),
 
-    it("strings", () => {
+    it("strings", async () => {
         const result = chef.strings("smothering ampersand abreast", {displayTotal: true});
         const expected = `Total found: 1
 
@@ -853,7 +853,7 @@ smothering ampersand abreast
         assert.strictEqual(result.toString(), expected);
     }),
 
-    it("toBase64: editableOption", () => {
+    it("toBase64: editableOption", async () => {
         const result = toBase64("some input", {
             alphabet: {
                 value: "0-9A-W"
@@ -862,54 +862,54 @@ smothering ampersand abreast
         assert.strictEqual(result.toString(), "SPI1R1T0");
     }),
 
-    it("toBase64: editableOptions key is value", () => {
+    it("toBase64: editableOptions key is value", async () => {
         const result = toBase64("some input", {
             alphabet: "0-9A-W",
         });
         assert.strictEqual(result.toString(), "SPI1R1T0");
     }),
 
-    it("toBase64: editableOptions default", () => {
+    it("toBase64: editableOptions default", async () => {
         const result = toBase64("some input");
         assert.strictEqual(result.toString(), "c29tZSBpbnB1dA==");
     }),
 
-    it("To BCD", () => {
+    it("To BCD", async () => {
         assert.strictEqual(chef.toBCD("443").toString(), "0100 0100 0011");
     }),
 
-    it("To CamelCase", () => {
+    it("To CamelCase", async () => {
         assert.strictEqual(chef.toCamelCase("Quickest Wheel").toString(), "quickestWheel");
     }),
 
-    it("toHex: accepts args", () => {
+    it("toHex: accepts args", async () => {
         const result = toHex("some input", {
             delimiter: "Colon",
         });
         assert.strictEqual(result.toString(), "73:6f:6d:65:20:69:6e:70:75:74");
     }),
 
-    it("To Kebab case", () => {
+    it("To Kebab case", async () => {
         assert.strictEqual(chef.toKebabCase("Elfin Gold").toString(), "elfin-gold");
     }),
 
-    it("To punycode", () => {
+    it("To punycode", async () => {
         assert.strictEqual(chef.toPunycode("♠ ♣ ♥ ♦ ← ↑ ‍ →").toString(), "       -m06cw7klao368lfb3aq");
     }),
 
-    it("to snake case", () => {
+    it("to snake case", async () => {
         assert.strictEqual(chef.toSnakeCase("Abhorrent Grass").value, "abhorrent_grass");
     }),
 
-    it("to unix timestamp", () => {
+    it("to unix timestamp", async () => {
         assert.strictEqual(chef.toUNIXTimestamp("04-01-2001").toString(), "986083200 (Sun 1 April 2001 00:00:00 UTC)");
     }),
 
-    it("Translate DateTime format", () => {
+    it("Translate DateTime format", async () => {
         assert.strictEqual(chef.translateDateTimeFormat("01/04/1999 22:33:01").toString(), "Thursday 1st April 1999 22:33:01 +00:00 UTC");
     }),
 
-    it("Triple DES encrypt / decrypt", () => {
+    it("Triple DES encrypt / decrypt", async () => {
         assert.strictEqual(
             chef.tripleDESDecrypt(
                 chef.tripleDESEncrypt("Destroy Money", {key: {string: "30 31 2f 30 34 2f 31 39 39 39 20 32 32 3a 33 33 3a 30 3130 31 2f 30 34", option: "Hex"}}),
@@ -917,11 +917,11 @@ smothering ampersand abreast
             "Destroy Money");
     }),
 
-    it("UNIX Timestamp to Windows Filetime", () => {
+    it("UNIX Timestamp to Windows Filetime", async () => {
         assert.strictEqual(chef.UNIXTimestampToWindowsFiletime("2020735").toString(), "116464943350000000");
     }),
 
-    it("XML Beautify", () => {
+    it("XML Beautify", async () => {
         assert.strictEqual(
             chef.XMLBeautify("<contact-info><company>abc</company></contact-info>").toString(),
             `<contact-info>
@@ -929,14 +929,14 @@ smothering ampersand abreast
 </contact-info>`);
     }),
 
-    it("XOR: toggleString with default option", () => {
+    it("XOR: toggleString with default option", async () => {
         assert.strictEqual(chef.XOR("fe023da5", {
             key: "73 6f 6d 65"
         }).toString(),
         "\u0015\n]W@\u000b\fP");
     }),
 
-    it("XOR: toggleString with custom option", () => {
+    it("XOR: toggleString with custom option", async () => {
         assert.strictEqual(chef.XOR("fe023da5", {
             key: {
                 string: "73 6f 6d 65",
@@ -946,17 +946,17 @@ smothering ampersand abreast
         "QV\u0010\u0004UDWQ");
     }),
 
-    it("XPath expression", () => {
+    it("XPath expression", async () => {
         assert.strictEqual(
             chef.XPathExpression("<contact-info><company>abc</company></contact-info>", {xPath: "contact-info/company"}).toString(),
             "<company>abc</company>");
     }),
 
-    it("Zlib deflate / inflate", () => {
+    it("Zlib deflate / inflate", async () => {
         assert.strictEqual(chef.zlibInflate(chef.zlibDeflate("cut homer wile rooky grits dizen")).toString(), "cut homer wile rooky grits dizen");
     }),
 
-    it("extract EXIF", () => {
+    it("extract EXIF", async () => {
         assert.strictEqual(
             chef.extractEXIF(fs.readFileSync("tests/node/sampleData/pic.jpg")).toString(),
             `Found 7 tags.

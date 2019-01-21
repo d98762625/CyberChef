@@ -291,7 +291,7 @@ export function bake(operations){
      * @returns {NodeDish} of the result
      * @throws {TypeError} if invalid recipe given.
      */
-    return function(input, recipeConfig) {
+    return async function(input, recipeConfig) {
         const recipe =  new NodeRecipe(recipeConfig);
         const dish = ensureIsDish(input);
         return recipe.execute(dish);

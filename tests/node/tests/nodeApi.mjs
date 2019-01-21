@@ -32,9 +32,9 @@ TestRegister.addApiTests([
         assert(toBase32);
     }),
 
-    it("should be synchronous", () => {
+    it("should be asynchronous", async () => {
         try {
-            const result = chef.toBase32("input");
+            const result = await chef.toBase32("input");
             assert.notEqual("something", result);
         } catch (e) {
             // shouldnt reach here
@@ -42,7 +42,7 @@ TestRegister.addApiTests([
         }
 
         try {
-            const fail = chef.setUnion("1");
+            const fail = await chef.setUnion("1");
             // shouldnt get here
             assert(!fail || false);
         } catch (e) {
@@ -50,17 +50,17 @@ TestRegister.addApiTests([
         }
     }),
 
-    it("should not catch Errors", () => {
+    it("should not catch Errors", async () => {
         try {
-            chef.setUnion("1");
+            await chef.setUnion("1");
             assert(false);
         } catch (e) {
             assert(e instanceof OperationError);
         }
     }),
 
-    it("should accept arguments in object format for operations", () => {
-        const result = chef.setUnion("1 2 3 4:3 4 5 6", {
+    it("should accept arguments in object format for operations", async () => {
+        const result = await chef.setUnion("1 2 3 4:3 4 5 6", {
             itemDelimiter: " ",
             sampleDelimiter: ":"
         });
@@ -68,45 +68,47 @@ TestRegister.addApiTests([
         assert.equal(result.value, "1 2 3 4 5 6");
     }),
 
-    it("should accept just some of the optional arguments being overriden", () => {
-        const result = chef.setIntersection("1 2 3 4 5\\n\\n3 4 5", {
+    it("should accept just some of the optional arguments being overriden", async () => {
+        const result = await chef.setIntersection("1 2 3 4 5\\n\\n3 4 5", {
             itemDelimiter: " ",
         });
 
         assert.equal(result.value, "3 4 5");
     }),
 
-    it("should accept no override arguments and just use the default values", () => {
-        const result = chef.powerSet("1,2,3");
+    it("should accept no override arguments and just use the default values", async () => {
+        const result = await chef.powerSet("1,2,3");
         assert.equal(result.value, "\n3\n2\n1\n2,3\n1,3\n1,2\n1,2,3\n");
     }),
 
-    it("should return an object with a .to method", () => {
-        const result = chef.toBase32("input");
+    it("should return an object with a .to method", async () => {
+        const result = await chef.toBase32("input");
         assert(result.to);
-        assert.equal(result.to("string"), "NFXHA5LU");
+        const str = await result.to("string");
+        assert.equal(str, "NFXHA5LU");
     }),
 
-    it("should return an object with a .get method", () => {
-        const result = chef.toBase32("input");
+    it("should return an object with a .get method", async () => {
+        const result = await chef.toBase32("input");
         assert(result.get);
-        assert.equal(result.get("string"), "NFXHA5LU");
+        const str = await result.get("string");
+        assert.equal(str, "NFXHA5LU");
     }),
 
-    it("should return a NodeDish", () => {
-        const result = chef.toBase32("input");
+    it("should return a NodeDish", async () => {
+        const result = await chef.toBase32("input");
         assert(result instanceof NodeDish);
     }),
 
-    it("should coerce to a string as you expect", () => {
-        const result = chef.fromBase32(chef.toBase32("something"));
+    it("should coerce to a string as you expect", async () => {
+        const result = await chef.fromBase32(await chef.toBase32("something"));
         assert.equal(String(result), "something");
         // This kind of coercion uses toValue
         assert.equal(""+result, "NaN");
     }),
 
-    it("should coerce to a number as you expect", () => {
-        const result = chef.fromBase32(chef.toBase32("32"));
+    it("should coerce to a number as you expect", async () => {
+        const result = await chef.fromBase32(await chef.toBase32("32"));
         assert.equal(3 + result, 35);
     }),
 
@@ -160,28 +162,28 @@ TestRegister.addApiTests([
         assert(chef.bake);
     }),
 
-    it("chef.bake: should return NodeDish", () => {
-        const result = chef.bake("input", "to base 64");
+    it("chef.bake: should return NodeDish", async () => {
+        const result = await chef.bake("input", "to base 64");
         assert(result instanceof NodeDish);
     }),
 
-    it("chef.bake: should take an input and an op name and perform it", () => {
-        const result = chef.bake("some input", "to base 32");
+    it("chef.bake: should take an input and an op name and perform it", async () => {
+        const result = await chef.bake("some input", "to base 32");
         assert.strictEqual(result.toString(), "ONXW2ZJANFXHA5LU");
     }),
 
-    it("chef.bake: should complain if recipe isnt a valid object", () => {
+    it("chef.bake: should complain if recipe isnt a valid object", async () => {
         try {
-            chef.bake("some input", 3264);
+            await chef.bake("some input", 3264);
         } catch (e) {
             assert.strictEqual(e.name, "TypeError");
             assert.strictEqual(e.message, "Recipe can only contain function names or functions");
         }
     }),
 
-    it("chef.bake: Should complain if string op is invalid", () => {
+    it("chef.bake: Should complain if string op is invalid", async () => {
         try {
-            chef.bake("some input", "not a valid operation");
+            await chef.bake("some input", "not a valid operation");
             assert.fail("Shouldn't be hit");
         } catch (e) {
             assert.strictEqual(e.name, "TypeError");
@@ -189,14 +191,14 @@ TestRegister.addApiTests([
         }
     }),
 
-    it("chef.bake: Should take an input and an operation and perform it", () => {
-        const result = chef.bake("https://google.com/search?q=help", chef.parseURI);
+    it("chef.bake: Should take an input and an operation and perform it", async () => {
+        const result = await chef.bake("https://google.com/search?q=help", chef.parseURI);
         assert.strictEqual(result.toString(), "Protocol:\thttps:\nHostname:\tgoogle.com\nPath name:\t/search\nArguments:\n\tq = help\n");
     }),
 
-    it("chef.bake: Should complain if an invalid operation is inputted", () => {
+    it("chef.bake: Should complain if an invalid operation is inputted", async () => {
         try {
-            chef.bake("https://google.com/search?q=help", () => {});
+            await chef.bake("https://google.com/search?q=help", () => {});
             assert.fail("Shouldn't be hit");
         } catch (e) {
             assert.strictEqual(e.name, "TypeError");
@@ -204,43 +206,43 @@ TestRegister.addApiTests([
         }
     }),
 
-    it("chef.bake: accepts an array of operation names and performs them all in order", () => {
-        const result = chef.bake("https://google.com/search?q=that's a complicated question", ["URL encode", "URL decode", "Parse URI"]);
+    it("chef.bake: accepts an array of operation names and performs them all in order", async () => {
+        const result = await chef.bake("https://google.com/search?q=that's a complicated question", ["URL encode", "URL decode", "Parse URI"]);
         assert.strictEqual(result.toString(), "Protocol:\thttps:\nHostname:\tgoogle.com\nPath name:\t/search\nArguments:\n\tq = that's a complicated question\n");
     }),
 
-    it("chef.bake: forgiving with operation names", () =>{
-        const result = chef.bake("https://google.com/search?q=that's a complicated question", ["urlencode", "url decode", "parseURI"]);
+    it("chef.bake: forgiving with operation names", async () => {
+        const result = await chef.bake("https://google.com/search?q=that's a complicated question", ["urlencode", "url decode", "parseURI"]);
         assert.strictEqual(result.toString(), "Protocol:\thttps:\nHostname:\tgoogle.com\nPath name:\t/search\nArguments:\n\tq = that's a complicated question\n");
     }),
 
-    it("chef.bake: forgiving with operation names", () =>{
-        const result = chef.bake("hello", ["to base 64"]);
+    it("chef.bake: forgiving with operation names", async () => {
+        const result = await chef.bake("hello", ["to base 64"]);
         assert.strictEqual(result.toString(), "aGVsbG8=");
     }),
 
-    it("chef.bake: if recipe is empty array, return input as dish", () => {
-        const result = chef.bake("some input", []);
+    it("chef.bake: if recipe is empty array, return input as dish", async () => {
+        const result = await chef.bake("some input", []);
         assert.strictEqual(result.toString(), "some input");
         assert(result instanceof NodeDish, "Result is not instance of NodeDish");
     }),
 
-    it("chef.bake: accepts an array of operations as recipe", () => {
-        const result = chef.bake("https://google.com/search?q=that's a complicated question", [chef.URLEncode, chef.URLDecode, chef.parseURI]);
+    it("chef.bake: accepts an array of operations as recipe", async () => {
+        const result = await chef.bake("https://google.com/search?q=that's a complicated question", [chef.URLEncode, chef.URLDecode, chef.parseURI]);
         assert.strictEqual(result.toString(), "Protocol:\thttps:\nHostname:\tgoogle.com\nPath name:\t/search\nArguments:\n\tq = that's a complicated question\n");
     }),
 
-    it("should complain if an invalid operation is inputted as part of array", () => {
+    it("should complain if an invalid operation is inputted as part of array", async () => {
         try {
-            chef.bake("something", [() => {}]);
+            await chef.bake("something", [() => {}]);
         } catch (e) {
             assert.strictEqual(e.name, "TypeError");
             assert.strictEqual(e.message, "Inputted function not a Chef operation.");
         }
     }),
 
-    it("chef.bake: should take single JSON object describing op and args OBJ", () => {
-        const result = chef.bake("some input", {
+    it("chef.bake: should take single JSON object describing op and args OBJ", async () => {
+        const result = await chef.bake("some input", {
             op: chef.toHex,
             args: {
                 Delimiter: "Colon"
@@ -249,17 +251,17 @@ TestRegister.addApiTests([
         assert.strictEqual(result.toString(), "73:6f:6d:65:20:69:6e:70:75:74");
     }),
 
-    it("chef.bake: should take single JSON object describing op and args ARRAY", () => {
-        const result = chef.bake("some input", {
+    it("chef.bake: should take single JSON object describing op and args ARRAY", async () => {
+        const result = await chef.bake("some input", {
             op: chef.toHex,
             args: ["Colon"]
         });
         assert.strictEqual(result.toString(), "73:6f:6d:65:20:69:6e:70:75:74");
     }),
 
-    it("chef.bake: should error if op in JSON is not chef op", () => {
+    it("chef.bake: should error if op in JSON is not chef op", async () => {
         try {
-            chef.bake("some input", {
+            await chef.bake("some input", {
                 op: () => {},
                 args: ["Colon"],
             });
@@ -269,8 +271,8 @@ TestRegister.addApiTests([
         }
     }),
 
-    it("chef.bake: should take multiple ops in JSON object form, some ops by string", () => {
-        const result = chef.bake("some input", [
+    it("chef.bake: should take multiple ops in JSON object form, some ops by string", async () => {
+        const result = await chef.bake("some input", [
             {
                 op: chef.toHex,
                 args: ["Colon"]
@@ -285,8 +287,8 @@ TestRegister.addApiTests([
         assert.strictEqual(result.toString(), "67;63;72;66;146;72;66;144;72;66;65;72;62;60;72;66;71;72;66;145;72;67;60;72;67;65;72;67;64");
     }),
 
-    it("chef.bake: should handle op with multiple args", () => {
-        const result = chef.bake("some input", {
+    it("chef.bake: should handle op with multiple args", async () => {
+        const result = await chef.bake("some input", {
             op: "to morse code",
             args: {
                 formatOptions: "Dash/Dot",
@@ -297,13 +299,13 @@ TestRegister.addApiTests([
         assert.strictEqual(result.toString(), "DotDotDot\\DashDashDash\\DashDash\\Dot,DotDot\\DashDot\\DotDashDashDot\\DotDotDash\\Dash");
     }),
 
-    it("chef.bake: should take compact JSON format from Chef Website as recipe", () => {
-        const result = chef.bake("some input", [{"op": "To Morse Code", "args": ["Dash/Dot", "Backslash", "Comma"]}, {"op": "Hex to PEM", "args": ["SOMETHING"]}, {"op": "To Snake case", "args": [false]}]);
+    it("chef.bake: should take compact JSON format from Chef Website as recipe", async () => {
+        const result = await chef.bake("some input", [{"op": "To Morse Code", "args": ["Dash/Dot", "Backslash", "Comma"]}, {"op": "Hex to PEM", "args": ["SOMETHING"]}, {"op": "To Snake case", "args": [false]}]);
         assert.strictEqual(result.toString(), "begin_something_anananaaaaak_da_aaak_da_aaaaananaaaaaaan_da_aaaaaaanan_da_aaak_end_something");
     }),
 
-    it("chef.bake: should accept Clean JSON format from Chef website as recipe", () => {
-        const result = chef.bake("some input", [
+    it("chef.bake: should accept Clean JSON format from Chef website as recipe", async () => {
+        const result = await chef.bake("some input", [
             { "op": "To Morse Code",
                 "args": ["Dash/Dot", "Backslash", "Comma"] },
             { "op": "Hex to PEM",
@@ -330,8 +332,8 @@ TestRegister.addApiTests([
         assert.throws(() => dish.someInvalidFunction());
     }),
 
-    it("Composable Dish: composed function returns another dish", () => {
-        const result = new Dish("some input").apply(toBase32);
+    it("Composable Dish: composed function returns another dish", async () => {
+        const result = await new Dish("some input").apply(toBase32);
         assert.ok(result instanceof NodeDish);
     }),
 
@@ -357,13 +359,13 @@ TestRegister.addApiTests([
         fs.unlinkSync("test.txt");
     }),
 
-    it("Composable Dish: apply should allow set of arguments for operation", () => {
-        const result = new Dish("input").apply(SHA3, {size: "256"});
+    it("Composable Dish: apply should allow set of arguments for operation", async () => {
+        const result = await new Dish("input").apply(SHA3, {size: "256"});
         assert.strictEqual(result.toString(), "7640cc9b7e3662b2250a43d1757e318bb29fb4860276ac4373b67b1650d6d3e3");
     }),
 
-    it("Composable Dish: apply functions can be chained", () => {
-        const result = new Dish("input").apply(toBase32).apply(SHA3, {size: "224"});
+    it("Composable Dish: apply functions can be chained", async () => {
+        const result = await new Dish("input").apply(toBase32).apply(SHA3, {size: "224"});
         assert.strictEqual(result.toString(), "493e8136b759370a415ef2cf2f7a69690441ff86592aba082bc2e2e0");
     }),
 
