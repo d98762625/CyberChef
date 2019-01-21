@@ -1,7 +1,7 @@
 /**
  * @author n1474335 [n1474335@gmail.com]
  * @author Matt C [matt@artemisbot.uk]
- * @copyright Crown Copyright 2016
+ * @copyright Crown Copyright 201
  * @license Apache-2.0
  */
 
@@ -26,6 +26,13 @@ class Dish {
     constructor(dishOrInput=null, type = null) {
         this.value = [];
         this.type = Dish.BYTE_ARRAY;
+
+        // Allow `fs` file input:
+        // Any node fs Buffers transformed to array buffer
+        // NOT Buffer.buff, as this makes a buffer of the whole object.
+        if (Buffer.isBuffer(dishOrInput)) {
+            dishOrInput = new Uint8Array(dishOrInput).buffer;
+        }
 
         // Case: dishOrInput is dish object
         if (dishOrInput &&
@@ -150,6 +157,16 @@ class Dish {
             await this._translate(type, notUTF8);
         }
         return this.value;
+    }
+
+    /**
+     * to
+     *
+     * alias for get
+     * @param args see get args
+     */
+    async to(...args) {
+        return await this.get(...args);
     }
 
 
@@ -382,6 +399,22 @@ class Dish {
         }
 
         return newDish;
+    }
+
+
+    /**
+     * NODE API
+     *
+     * apply
+     *
+     * Apply the inputted operation to the dish.
+     *
+     * @param {WrappedOperation} operation the operation to perform
+     * @param {*} args - any arguments for the operation
+     * @returns {Dish} a new dish with the result of the operation.
+     */
+    apply(operation, args=null) {
+        return operation(this.value, args);
     }
 
 }

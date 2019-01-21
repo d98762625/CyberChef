@@ -9,7 +9,7 @@ import { sanitise } from "./apiUtils";
 
 /**
  * Similar to core/Recipe, Recipe controls a list of operations and
- * the SyncDish the operate on. However, this Recipe is for the node
+ * the NodeDish the operate on. However, this Recipe is for the node
  * environment.
  */
 class NodeRecipe {
@@ -73,8 +73,8 @@ class NodeRecipe {
 
     /**
      * Run the dish through each operation, one at a time.
-     * @param {SyncDish} dish
-     * @returns {SyncDish}
+     * @param {NodeDish} dish
+     * @returns {NodeDish}
      */
     execute(dish) {
         return this.opList.reduce((prev, curr) => {

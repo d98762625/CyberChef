@@ -14,7 +14,7 @@ import assert from "assert";
 import it from "../assertionHandler";
 import chef from "../../../src/node/index";
 import OperationError from "../../../src/core/errors/OperationError";
-import SyncDish from "../../../src/node/SyncDish";
+import NodeDish from "../../../src/node/NodeDish";
 import fs from "fs";
 
 import { toBase32, Dish, SHA3 } from "../../../src/node/index";
@@ -93,9 +93,9 @@ TestRegister.addApiTests([
         assert.equal(result.get("string"), "NFXHA5LU");
     }),
 
-    it("should return a SyncDish", () => {
+    it("should return a NodeDish", () => {
         const result = chef.toBase32("input");
-        assert(result instanceof SyncDish);
+        assert(result instanceof NodeDish);
     }),
 
     it("should coerce to a string as you expect", () => {
@@ -160,9 +160,9 @@ TestRegister.addApiTests([
         assert(chef.bake);
     }),
 
-    it("chef.bake: should return SyncDish", () => {
+    it("chef.bake: should return NodeDish", () => {
         const result = chef.bake("input", "to base 64");
-        assert(result instanceof SyncDish);
+        assert(result instanceof NodeDish);
     }),
 
     it("chef.bake: should take an input and an op name and perform it", () => {
@@ -222,7 +222,7 @@ TestRegister.addApiTests([
     it("chef.bake: if recipe is empty array, return input as dish", () => {
         const result = chef.bake("some input", []);
         assert.strictEqual(result.toString(), "some input");
-        assert(result instanceof SyncDish, "Result is not instance of SyncDish");
+        assert(result instanceof NodeDish, "Result is not instance of NodeDish");
     }),
 
     it("chef.bake: accepts an array of operations as recipe", () => {
@@ -332,7 +332,7 @@ TestRegister.addApiTests([
 
     it("Composable Dish: composed function returns another dish", () => {
         const result = new Dish("some input").apply(toBase32);
-        assert.ok(result instanceof SyncDish);
+        assert.ok(result instanceof NodeDish);
     }),
 
 

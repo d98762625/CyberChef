@@ -8,7 +8,7 @@
 
 /*eslint no-console: ["off"] */
 
-import SyncDish from "./SyncDish";
+import NodeDish from "./NodeDish";
 import NodeRecipe from "./NodeRecipe";
 import OperationConfig from "./config/OperationConfig.json";
 import { sanitise, removeSubheadingsFromArray, sentenceToCamelCase } from "./apiUtils";
@@ -93,18 +93,18 @@ function transformArgs(originalArgs, newArgs) {
 
 
 /**
- * Ensure an input is a SyncDish object.
+ * Ensure an input is a NodeDish object.
  * @param input
  */
 function ensureIsDish(input) {
     if (!input) {
-        return new SyncDish();
+        return new NodeDish();
     }
 
-    if (input instanceof SyncDish) {
+    if (input instanceof NodeDish) {
         return input;
     } else {
-        return new SyncDish(input);
+        return new NodeDish(input);
     }
 }
 
@@ -179,13 +179,13 @@ export function wrap(OpClass) {
          * Async wrapped operation run function
          * @param {*} input
          * @param {Object | String[]} args - either in Object or normal args array
-         * @returns {Promise<SyncDish>} operation's output, on a Dish.
+         * @returns {Promise<NodeDish>} operation's output, on a Dish.
          * @throws {OperationError} if the operation throws one.
          */
         wrapped = async (input, args=null) => {
             const {transformedInput, transformedArgs} = prepareOp(opInstance, input, args);
             const result = await opInstance.run(transformedInput, transformedArgs);
-            return new SyncDish({
+            return new NodeDish({
                 value: result,
                 type: opInstance.outputType
             });
@@ -195,13 +195,13 @@ export function wrap(OpClass) {
          * wrapped operation run function
          * @param {*} input
          * @param {Object | String[]} args - either in Object or normal args array
-         * @returns {SyncDish} operation's output, on a Dish.
+         * @returns {NodeDish} operation's output, on a Dish.
          * @throws {OperationError} if the operation throws one.
          */
         wrapped = (input, args=null) => {
             const {transformedInput, transformedArgs} = prepareOp(opInstance, input, args);
             const result = opInstance.run(transformedInput, transformedArgs);
-            return new SyncDish({
+            return new NodeDish({
                 value: result,
                 type: opInstance.outputType
             });
@@ -288,7 +288,7 @@ export function bake(operations){
      * @param {*} input - some input for a recipe.
      * @param {String | Function | String[] | Function[] | [String | Function]} recipeConfig -
      * An operation, operation name, or an array of either.
-     * @returns {SyncDish} of the result
+     * @returns {NodeDish} of the result
      * @throws {TypeError} if invalid recipe given.
      */
     return function(input, recipeConfig) {
