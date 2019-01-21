@@ -22,13 +22,18 @@ console.log(`
      /____/                                         
      
 `);
+
 const replServer = repl.start({
     prompt: "chef > ",
 });
 
 Object.keys(chef).forEach((key) => {
     if (key !== "operations") {
-        replServer.context[key] = chef[key];
+        Object.defineProperty(replServer.context, key, {
+            configurable: false,
+            enumerable: true,
+            value: chef[key]
+        });
     }
 });
 

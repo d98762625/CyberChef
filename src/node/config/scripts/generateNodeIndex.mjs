@@ -64,57 +64,72 @@ global.ENVIRONMENT_IS_WEB = function() {
     return typeof window === "object";
 };
 
-/**
- * generateChef
- *
- * Creates decapitalised, wrapped ops in chef object for default export.
- */
-function generateChef() {
-    return {
+
+let chef;
+let operations;
+// Needs to be in function so the async wrap can resolve.
+(async () => {
+
+    /**
+     * generateChef
+     *
+     * Creates decapitalised, wrapped ops in chef object for default export.
+     */
+    async function generateChef() {
+        return {
 `;
 
 includedOperations.forEach((op) => {
-    code += `        "${decapitalise(op)}": wrap(core_${op}),\n`;
+    code += `            "${decapitalise(op)}": await wrap(core_${op}),\n`;
 });
 
 excludedOperations.forEach((op) => {
-    code += `        "${decapitalise(op)}": explainExludedFunction("${op}"),\n`;
+    code += `            "${decapitalise(op)}": explainExludedFunction("${op}"),\n`;
 });
 
-code += `    };
-}
+code += `        };
+    }
 
-const chef = generateChef();
-// Add some additional features to chef object.
-chef.help = help;
-chef.Dish = NodeDish;
+    const chef = await generateChef();
+    // Add some additional features to chef object.
+    chef.help = help;
+    chef.Dish = NodeDish;
 
-// Define consts here so we can add to top-level export - wont allow
-// export of chef property.
+    console.log('CHEF:');
+    console.log(chef);
+
+    const operations = {
 `;
 
 Object.keys(operations).forEach((op) => {
-    code += `const ${decapitalise(op)} = chef.${decapitalise(op)};\n`;
+    code += `        ${decapitalise(op)}: chef.${decapitalise(op)},\n`;
 });
 
 code +=`
+    };
 
-// Define array of all operations to create register for bake.
-const operations = [\n`;
+    const prebaked = bake();
+    chef.bake = prebaked;
+
+    return { chef, operations };
+
+})();
+
+`;
 
 Object.keys(operations).forEach((op) => {
-    code += `    ${decapitalise(op)},\n`;
+    code += `const ${decapitalise(op)} = operations.${decapitalise(op)};\n`;
 });
 
-code += `];
+code += `
 
-const prebaked = bake(operations);
-chef.bake = prebaked;
 export default chef;
 
 // Operations as top level exports.
+const operationsArray = Object.keys(operations).map(k => operations[k]);
+
 export {
-    operations,
+    operationsArray as operations,
 `;
 
 Object.keys(operations).forEach((op) => {

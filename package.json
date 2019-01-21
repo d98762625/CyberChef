@@ -138,9 +138,12 @@
   },
   "scripts": {
     "start": "grunt dev",
+    "start-node": "grunt node",
     "build": "grunt prod",
+    "build-node": "grunt node-prod",
     "test": "grunt test",
     "testui": "grunt testui",
+    "testnode": "grunt test-node",
     "docs": "grunt docs",
     "lint": "grunt lint",
     "repl": "node --experimental-modules --no-warnings src/node/repl-index.mjs",

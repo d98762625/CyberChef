@@ -16,7 +16,10 @@ import ExludedOperationError from "../core/errors/ExcludedOperationError";
 
 
 /**
+ * extractArg
+ *
  * Extract default arg value from operation argument
+ *
  * @param {Object} arg - an arg from an operation
  */
 function extractArg(arg) {
@@ -48,7 +51,7 @@ function extractArg(arg) {
  * clear to the user.
  *
  * Argument name matching is case and space insensitive
- * @private
+ *
  * @param {Object[]} originalArgs - the operation-s args list
  * @param {Object} newArgs - any inputted args
  */
@@ -93,8 +96,11 @@ function transformArgs(originalArgs, newArgs) {
 
 
 /**
+ * ensureIsDish
+ *
  * Ensure an input is a NodeDish object.
- * @param input
+ * @param {Object} input - the object we want to be a dish
+ * @returns {NodeDish} instance
  */
 function ensureIsDish(input) {
     if (!input) {
@@ -110,13 +116,19 @@ function ensureIsDish(input) {
 
 
 /**
- * prepareOp: transform args, make input the right type.
- * Also convert any Buffers to ArrayBuffers.
+ * prepareOp
+ *
+ * Transform args, make input the right type.
+ * Also convert any Buffers to ArrayBuffers.\
+ *
+ * Output will be ready for core operations to consume
+ *
  * @param opInstance - instance of the operation
  * @param input - operation input
  * @param args - operation args
+ * @returns {input, args} ready for operation to consume.
  */
-function prepareOp(opInstance, input, args) {
+async function prepareOp(opInstance, input, args) {
     const dish = ensureIsDish(input);
     let transformedArgs;
     // Transform object-style args to original args array
@@ -125,7 +137,7 @@ function prepareOp(opInstance, input, args) {
     } else {
         transformedArgs = args;
     }
-    const transformedInput = dish.get(opInstance.inputType);
+    const transformedInput = await dish.get(opInstance.inputType);
     return {transformedInput, transformedArgs};
 }
 
@@ -139,7 +151,7 @@ function prepareOp(opInstance, input, args) {
  * Argument names are converted to camel case for consistency.
  *
  * @param {Operation} op - the operation to extract args from
- * @returns {{}} - arrays of options for option and toggleString args.
+ * @returns {Object} arrays of options for option and toggleString args.
 */
 function createArgOptions(op) {
     const result = {};
@@ -156,13 +168,15 @@ function createArgOptions(op) {
 
 
 /**
+ * wrap
+ *
  * Wrap an operation to be consumed by node API.
- * Checks to see if run function is async or not.
- * new Operation().run() becomes operation()
- * Perform type conversion on input
- * @private
+ * * Checks to see if run function is async or not.
+ * * new Operation().run() becomes operation()
+ * * Perform type conversion on input
+ *
  * @param {Operation} Operation
- * @returns {Function} The operation's run function, wrapped in
+ * @returns {AsyncFunction} The operation's run function, wrapped in
  * some type conversion logic
  */
 export function wrap(OpClass) {
@@ -175,6 +189,7 @@ export function wrap(OpClass) {
 
     // If async, wrap must be async.
     if (isAsync) {
+
         /**
          * Async wrapped operation run function
          * @param {*} input
@@ -183,7 +198,7 @@ export function wrap(OpClass) {
          * @throws {OperationError} if the operation throws one.
          */
         wrapped = async (input, args=null) => {
-            const {transformedInput, transformedArgs} = prepareOp(opInstance, input, args);
+            const {transformedInput, transformedArgs} = await prepareOp(opInstance, input, args);
             const result = await opInstance.run(transformedInput, transformedArgs);
             return new NodeDish({
                 value: result,
@@ -198,8 +213,8 @@ export function wrap(OpClass) {
          * @returns {NodeDish} operation's output, on a Dish.
          * @throws {OperationError} if the operation throws one.
          */
-        wrapped = (input, args=null) => {
-            const {transformedInput, transformedArgs} = prepareOp(opInstance, input, args);
+        wrapped = async (input, args=null) => {
+            const {transformedInput, transformedArgs} = await prepareOp(opInstance, input, args);
             const result = opInstance.run(transformedInput, transformedArgs);
             return new NodeDish({
                 value: result,
@@ -217,7 +232,9 @@ export function wrap(OpClass) {
 
 
 /**
- * help: Give information about operations matching the given search term,
+ * help
+ *
+ * Give information about operations matching the given search term,
  * or inputted operation.
  *
  * @param {String || wrapped operation} input - the name of the operation to get help for.
@@ -226,6 +243,7 @@ export function wrap(OpClass) {
  */
 export function help(input) {
     let searchTerm = false;
+
     if (typeof input === "string") {
         searchTerm = input;
     } else if (typeof input === "function") {
@@ -276,11 +294,12 @@ export function help(input) {
 
 
 /**
- * bake [Wrapped] - Perform an array of operations on some input.
- * @param operations array of chef's operations (used in wrapping stage)
+ * bake [Wrapped]
+ *
+ * Perform an array of operations on some input.
  * @returns {Function}
  */
-export function bake(operations){
+export function bake() {
 
     /**
      * bake
@@ -304,6 +323,7 @@ export function bake(operations){
  *
  * Explain that the given operation is not included in the Node.js version.
  * @param {String} name - name of operation
+ * @returns {Function}
  */
 export function explainExludedFunction(name) {
     /**

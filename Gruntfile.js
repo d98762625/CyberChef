@@ -27,6 +27,10 @@ module.exports = function (grunt) {
         ["clean:dev", "clean:config", "exec:generateConfig", "concurrent:dev"]);
 
     grunt.registerTask("node",
+        "Compile node for dev",
+        ["clean", "exec:generateConfig", "exec:generateNodeIndex",  "webpack:nodeDev", "webpack:nodeRepl", "chmod:build"]);
+
+    grunt.registerTask("node-prod",
         "Compiles CyberChef into a single NodeJS module.",
         ["clean", "exec:generateConfig", "exec:generateNodeIndex",  "webpack:node", "webpack:nodeRepl", "chmod:build"]);
 
@@ -297,8 +301,25 @@ module.exports = function (grunt) {
                     ]
                 }
             },
+            nodeDev: {
+                mode: "development",
+                target: "node",
+                entry: "./src/node/nindex.mjs",
+                externals: [NodeExternals({
+                    whitelist: ["crypto-api/src/crypto-api"]
+                })],
+                output: {
+                    filename: "CyberChef.js",
+                    path: __dirname + "/build/node",
+                    library: "CyberChef",
+                    libraryTarget: "commonjs2"
+                },
+                plugins: [
+                    new webpack.DefinePlugin(BUILD_CONSTANTS)
+                ],
+            },
             nodeRepl: {
-                mode: "production",
+                mode: "development",
                 target: "node",
                 entry: "./src/node/repl-index.mjs",
                 externals: [NodeExternals({
@@ -313,17 +334,17 @@ module.exports = function (grunt) {
                 plugins: [
                     new webpack.DefinePlugin(BUILD_CONSTANTS)
                 ],
-                optimization: {
-                    minimizer: [
-                        new UglifyJSWebpackPlugin({
-                            parallel: true,
-                            cache: true,
-                            uglifyOptions: {
-                                "keep_fnames": true,
-                            }
-                        })
-                    ]
-                }
+                // optimization: {
+                //     minimizer: [
+                //         new UglifyJSWebpackPlugin({
+                //             parallel: true,
+                //             cache: true,
+                //             uglifyOptions: {
+                //                 "keep_fnames": true,
+                //             }
+                //         })
+                //     ]
+                // }
             }
         },
         "webpack-dev-server": {
