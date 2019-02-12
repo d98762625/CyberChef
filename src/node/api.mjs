@@ -10,7 +10,7 @@
 
 import NodeDish from "./NodeDish";
 import NodeRecipe from "./NodeRecipe";
-import OperationConfig from "./config/OperationConfig.json";
+import OperationConfig from "../core/config/OperationConfig.json";
 import { sanitise, removeSubheadingsFromArray, sentenceToCamelCase } from "./apiUtils";
 import ExludedOperationError from "../core/errors/ExcludedOperationError";
 

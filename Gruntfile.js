@@ -32,7 +32,11 @@ module.exports = function (grunt) {
 
     grunt.registerTask("node-prod",
         "Compiles CyberChef into a single NodeJS module.",
-        ["clean", "exec:generateConfig", "exec:generateNodeIndex",  "webpack:node", "webpack:nodeRepl", "chmod:build"]);
+        ["clean", "exec:generateConfig", "exec:generateNodeIndex",  "webpack:node", "chmod:build"]);
+
+    grunt.registerTask("node-prod",
+        "Compiles CyberChef into a single NodeJS module.",
+        ["clean", "exec:generateConfig", "exec:generateNodeIndex",  "webpack:nodeProd", "webpack:nodeRepl", "chmod:build"]);
 
     grunt.registerTask("test",
         "A task which runs all the operation tests in the tests directory.",
@@ -203,7 +207,8 @@ module.exports = function (grunt) {
                         sitemap: "./src/web/static/sitemap.js"
                     }, moduleEntryPoints),
                     output: {
-                        path: __dirname + "/build/prod"
+                        path: __dirname + "/build/prod",
+                        globalObject: "this"
                     },
                     resolve: {
                         alias: {
@@ -274,6 +279,26 @@ module.exports = function (grunt) {
                 ]
             },
             node: {
+                mode: "development",
+                target: "node",
+                entry: "./src/node/index.mjs",
+                externals: [NodeExternals({
+                    whitelist: ["crypto-api/src/crypto-api"]
+                })],
+                output: {
+                    filename: "CyberChef.js",
+                    path: __dirname + "/build/node",
+                    library: "CyberChef",
+                    libraryTarget: "commonjs2"
+                },
+                plugins: [
+                    new webpack.DefinePlugin(BUILD_CONSTANTS),
+                    new webpack.optimize.LimitChunkCountPlugin({
+                        maxChunks: 1
+                    })
+                ],
+            },
+            nodeProd: {
                 mode: "production",
                 target: "node",
                 entry: "./src/node/index.mjs",
@@ -287,7 +312,10 @@ module.exports = function (grunt) {
                     libraryTarget: "commonjs2"
                 },
                 plugins: [
-                    new webpack.DefinePlugin(BUILD_CONSTANTS)
+                    new webpack.DefinePlugin(BUILD_CONSTANTS),
+                    new webpack.optimize.LimitChunkCountPlugin({
+                        maxChunks: 1
+                    })
                 ],
                 optimization: {
                     minimizer: [
@@ -332,7 +360,10 @@ module.exports = function (grunt) {
                     libraryTarget: "commonjs2"
                 },
                 plugins: [
-                    new webpack.DefinePlugin(BUILD_CONSTANTS)
+                    new webpack.DefinePlugin(BUILD_CONSTANTS),
+                    new webpack.optimize.LimitChunkCountPlugin({
+                        maxChunks: 1
+                    })
                 ],
                 // optimization: {
                 //     minimizer: [
@@ -378,6 +409,9 @@ module.exports = function (grunt) {
                         alias: {
                             "./config/modules/OpModules": "./config/modules/Default"
                         }
+                    },
+                    output: {
+                        globalObject: "this",
                     },
                     plugins: [
                         new webpack.DefinePlugin(BUILD_CONSTANTS),
@@ -471,9 +505,7 @@ module.exports = function (grunt) {
             generateConfig: {
                 command: [
                     "echo '\n--- Regenerating config files. ---'",
-                    // "node --experimental-modules src/core/config/scripts/generateOpsIndex.mjs",
                     "mkdir -p src/core/config/modules",
-                    "echo 'export default {};\n' > src/core/config/modules/OpModules.mjs",
                     "echo '[]\n' > src/core/config/OperationConfig.json",
                     "node --experimental-modules --no-warnings --no-deprecation src/core/config/scripts/generateOpsIndex.mjs",
                     "node --experimental-modules --no-warnings --no-deprecation src/core/config/scripts/generateConfig.mjs",
@@ -483,15 +515,6 @@ module.exports = function (grunt) {
             generateNodeIndex: {
                 command: [
                     "echo '\n--- Regenerating node index ---'",
-                    // Why copy and wipe OperationConfig?
-                    // OperationConfig.json needs to be empty for build to avoid circular dependency on DetectFileType.
-                    // We copy it to node dir so that we can use it as a search corpus in chef.help.
-                    "echo 'Copying OperationConfig.json and wiping original'",
-                    "cp src/core/config/OperationConfig.json src/node/config/OperationConfig.json",
-                    "echo 'export default {};\n' > src/core/config/modules/OpModules.mjs",
-                    "echo '[]\n' > src/core/config/OperationConfig.json",
-                    "echo '\n OperationConfig.json copied to src/node/config. Modules wiped.'",
-
                     "node --experimental-modules src/node/config/scripts/generateNodeIndex.mjs",
                     "echo '--- Node index generated. ---\n'"
                 ].join(";"),
