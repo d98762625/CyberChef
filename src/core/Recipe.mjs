@@ -6,13 +6,11 @@
 
 import OperationConfig from "./config/OperationConfig.json";
 import OperationError from "./errors/OperationError.mjs";
-import Operation from "./Operation.mjs";
 import DishError from "./errors/DishError.mjs";
 import log from "loglevel";
 import { isWorkerEnvironment } from "./Utils.mjs";
+import RecipeConfigLoaderInstance from "./lib/RecipeConfigLoader.mjs";
 
-// Cache container for modules
-let modules = null;
 
 /**
  * The Recipe controls a list of Operations and the Dish they operate on.
@@ -48,34 +46,6 @@ class Recipe  {
                 breakpoint: c.breakpoint,
                 disabled: c.disabled,
             });
-        });
-    }
-
-
-    /**
-     * Populate elements of opList with operation instances.
-     * Dynamic import here removes top-level cyclic dependency issue.
-     *
-     * @private
-     */
-    async _hydrateOpList() {
-        if (!modules) {
-            // Using Webpack Magic Comments to force the dynamic import to be included in the main chunk
-            // https://webpack.js.org/api/module-methods/
-            modules = await import(/* webpackMode: "eager" */ "./config/modules/OpModules.mjs");
-            modules = modules.default;
-        }
-
-        this.opList = this.opList.map(o => {
-            if (o instanceof Operation) {
-                return o;
-            } else {
-                const op = new modules[o.module][o.name]();
-                op.ingValues = o.ingValues;
-                op.breakpoint = o.breakpoint;
-                op.disabled = o.disabled;
-                return op;
-            }
         });
     }
 
@@ -132,7 +102,7 @@ class Recipe  {
 
         if (startFrom === 0) this.lastRunOp = null;
 
-        await this._hydrateOpList();
+        this.opList = await RecipeConfigLoaderInstance.hydrateOpList(this.opList);
 
         log.debug(`[*] Executing recipe of ${this.opList.length} operations, starting at ${startFrom}`);
 
@@ -236,7 +206,7 @@ class Recipe  {
      * @returns {Object[]} highlights[].args
      */
     async generateHighlightList() {
-        await this._hydrateOpList();
+        this.opList = await RecipeConfigLoaderInstance.hydrateOpList(this.opList);
         const highlights = [];
 
         for (let i = 0; i < this.opList.length; i++) {
