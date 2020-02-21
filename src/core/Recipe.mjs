@@ -81,19 +81,6 @@ class Recipe  {
 
 
     /**
-     * Returns the value of the Recipe as it should be displayed in a recipe config.
-     *
-     * @returns {Object[]}
-     */
-    get config() {
-        return this.opList.map(op => ({
-            op: op.name,
-            args: op.ingValues,
-        }));
-    }
-
-
-    /**
      * Adds a new Operation to this Recipe.
      *
      * @param {Operation} operation
@@ -110,46 +97,8 @@ class Recipe  {
      */
     addOperations(operations) {
         operations.forEach(o => {
-            if (o instanceof Operation) {
-                this.opList.push(o);
-            } else {
-                this.opList.push({
-                    name: o.name,
-                    module: o.module,
-                    ingValues: o.args,
-                    breakpoint: o.breakpoint,
-                    disabled: o.disabled,
-                });
-            }
+            this.opList.push(o);
         });
-    }
-
-
-    /**
-     * Set a breakpoint on a specified Operation.
-     *
-     * @param {number} position - The index of the Operation
-     * @param {boolean} value
-     */
-    setBreakpoint(position, value) {
-        try {
-            this.opList[position].breakpoint = value;
-        } catch (err) {
-            // Ignore index error
-        }
-    }
-
-
-    /**
-     * Remove breakpoints on all Operations in the Recipe up to the specified position. Used by Flow
-     * Control Fork operation.
-     *
-     * @param {number} pos
-     */
-    removeBreaksUpTo(pos) {
-        for (let i = 0; i < pos; i++) {
-            this.opList[i].breakpoint = false;
-        }
     }
 
 
@@ -274,27 +223,6 @@ class Recipe  {
             this.lastRunOp.ingValues
         );
         dish.set(output, this.lastRunOp.presentType);
-    }
-
-
-    /**
-     * Returns the recipe configuration in string format.
-     *
-     * @returns {string}
-     */
-    toString() {
-        return JSON.stringify(this.config);
-    }
-
-
-    /**
-     * Creates a Recipe from a given configuration string.
-     *
-     * @param {string} recipeStr
-     */
-    fromString(recipeStr) {
-        const recipeConfig = JSON.parse(recipeStr);
-        this._parseConfig(recipeConfig);
     }
 
 
